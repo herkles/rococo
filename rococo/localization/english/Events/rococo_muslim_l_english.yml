@@ -1,0 +1,40 @@
+﻿l_english:
+#######################################
+# Chief Qadi Picking Events
+#######################################
+  # Vassal comes to you with a scholar who can be a qadi.
+    rococo_muslim.001.t:0 "A chief Qadi"
+    rococo_muslim.001.desc:0 "[vassal.Custom2('MyCharacterIntroduction', ROOT.Char)|U] approaches the throne with a [potential_chief_qadi.Custom('GetYoungMiddleAgedOld')] [potential_chief_qadi.GetWomanMan] in tow. \n\n"My [vassal.Custom2('RelationToMeShort', ROOT.Char)] and [ROOT.Char.GetTitleAsNameNoTooltip]!" [vassal.GetSheHe] spouts, "My [vassal.Custom2('RelationToMeShort', SCOPE.sC('potential_chief_qadi'))], [potential_chief_qadi.GetFullName], Seeks the honor of being your chief Qadi.\n\n"
+    rococo_muslim.001.desc_talented:0 "[potential_chief_qadi.GetSheHe|U] is already one of [vassal.GetTitleAsNamePossessive] most renowned scholars, and his understanding of sharia shall serve the administration well!" It is true, you have heard of [potential_chief_qadi.GetHerHis] skills..."
+    rococo_muslim.001.desc_suitable:0 "The [potential_chief_qadi.GetWomanMan] knows [potential_chief_qadi.GetHerHis] way around the books and legal matters, and will not let you down when it counts!"
+    rococo_muslim.001.desc_passing:0 "[potential_chief_qadi.GetFirstNameNoTooltip] smiles weakly. "I am but a humble scholar, but I hope to learn much in your service.""
+    rococo_muslim.001.desc_unsuitable:0 "Pulling me aside, [vassal.GetFirstNameNoTooltip] mutters, "[potential_chief_qadi.GetSheHe|U] is not a renowned scholar, but [potential_chief_qadi.GetHerHis] enthusiasm should fill the breach...""
+    rococo_muslim.001.accept:0 "Very well, you will be my chief Qadi, [potential_chief_qadi.GetFirstNameNoTooltip]."
+    rococo_muslim.001.a.tt_knight:0 "[potential_chief_qadi.GetFirstName] will move to your court and become a [potential_chief_qadi|E]. \nRemoving [potential_chief_qadi.GetHerHim] may upset [vassal.GetTitledFirstName]."
+
+    rococo_muslim.001.a.tt_toast:0 "To [potential_chief_qadi.GetNameNoTooltip]"
+    rococo_muslim.001.a.tt_hook:0 "Because [vassal.GetTitledFirstName] has a hook on you:"
+    rococo_muslim.001.hook:0 "To take on - #EMP [potential_chief_qadi.GetHerHim]#! - I need something in return."
+    rococo_muslim.001.refuse.talented:0 "You should keep such talent close, [vassal.GetFirstNameNoTooltip]."
+    rococo_muslim.001.refuse.suitable:0 "Skilled, yes. Needed? No."
+    rococo_muslim.001.refuse.passing:0 "The graveyards are full of middling scholars."
+    rococo_muslim.001.refuse.unsuitable:0 "A mule would be more useful..."
+
+  # A qadi spurned
+    rococo_muslim.002.t:0 "$rococo_muslim.001.t$: A Qadi Spurned"
+    rococo_muslim.002.desc:0 "It seems word has finally reached [vassal.GetTitledFirstName] that [vassal.GetHerHis] [vassal.Custom2('RelationToMeShort', SCOPE.sC('potential_chief_qadi'))] is no longer enjoys a place as my Chief Qadi. \n\nCarefully containing [vassal.GetHerHis] rage, [vassal.GetSheHe] demands that I uphold my promise and reinstate [potential_chief_qadi.GetFirstNamePossessive] position!"
+    rococo_muslim.002.a:0 "Calm, I will reinstate [potential_chief_qadi.GetHerHim] [vassal.GetFirstNameNoTooltip]!"
+    rococo_muslim.002.a.tt_qadi:1 "[potential_chief_qadi.GetFirstName] will become a [potential_chief_qadi|E] again"
+    rococo_muslim.002.b:0 "[potential_chief_qadi.GetSheHe|U] is no great loss."
+    rococo_muslim.002.b.tt_return:0 "[potential_chief_qadi.GetFirstNameNoTooltip] will return to [vassal.GetTitledFirstNamePossessiveNoTooltip] court"
+  # The Final Straw
+    rococo_muslim.003.t:0 "$hold_court.8050.t$: Final Straw"
+    rococo_muslim.003.desc.intro:0 "[vassal.GetTitledFirstName] wastes no time upon hearing that [potential_chief_qadi.GetFirstName] has been removed as my chief Qadi yet again, and demands an audience. \n\n"
+    rococo_muslim.003.desc.wrath:0 "Apoplectic with rage, [vassal.GetSheHe] erupts, "My [vassal.Custom2('RelationToMeShort', SCOPE.sC('potential_chief_qadi'))] has been grossly mistreated, and my trust in your promises destroyed!", before storming out."
+    rococo_muslim.003.desc.fallback:0 "[vassal.GetSheHe|U] makes plain [vassal.GetHerHis] disappointment, clearly riled by the embarrassment my actions have caused [vassal.GetHerHim]..."
+    rococo_muslim.003.a:0 "Oh–such drama!"
+    rococo_muslim.003.b:0 "Guards, arrest that [vassal.Custom('InsultNoun')]!"
+
+
+
+ 

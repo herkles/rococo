@@ -1,0 +1,665 @@
+﻿namespace = rococo_muslim
+
+##################################################
+# Chief Qadi getting Picked
+##################################################
+scripted_trigger rococo_muslim_qadi_candidate_trigger = {
+	has_court_event_flag = no
+	is_available_ai_adult = yes
+	is_landed = no
+	faith = root.faith
+	top_liege = root
+	NOT = { is_primary_heir_of = prev } # prev = scope:vassal
+	NOT = { has_relation_rival = root }
+	court_position_learning_trigger = { EMPLOYER = root }
+}
+scripted_trigger rococo_muslim_qadi_vassal_trigger = {
+	has_court_event_flag = no
+	is_available_ai_adult = yes
+	NOT = { is_close_family_of = root }
+	NOT = { has_relation_rival = root }
+	NOT = { has_court_position = chief_qadi_court_position }
+	OR = {
+		any_close_or_extended_family_member = { rococo_muslim_qadi_candidate_trigger = yes }
+		any_courtier = {
+			has_relation_friend = prev
+			rococo_muslim_qadi_candidate_trigger = yes
+		}
+		is_below_ai_friend_soft_cap_trigger = yes
+	}
+}
+scripted_trigger rococo_muslim_qadi_fired_trigger = {
+	has_variable = rococo_muslim_001_qadi
+	this = root.var:rococo_muslim_001_promise
+	var:rococo_muslim_001_qadi = {
+		is_landed = yes
+		is_vassal_or_below_of = root
+		NOT = { has_relation_rival = root }
+	}
+	NOT = { has_court_position = chief_qadi_court_position}
+}
+scripted_effect rococo_muslim_accepted_qadi_effect = {
+	scope:potential_chief_qadi = {
+		hidden_effect = {
+			if = {
+				limit = { is_foreign_court_or_pool_guest = yes }
+				return_to_court = yes
+			}
+			set_employer = root
+		}
+		set_variable = {
+			name = rococo_muslim_001_qadi
+			value = scope:vassal
+			years = 10
+		}
+		add_prestige = minor_prestige_gain
+		add_opinion = {
+			modifier = grateful_opinion
+			target = root
+			opinion = 20
+		}
+	}
+	trigger_event = {
+		id = rococo_muslim.004
+		days = 365
+	}
+	send_interface_message = {
+		title = rococo_muslim.001.a.tt_toast
+		left_icon = scope:potential_chief_qadi
+		right_icon = scope:vassal
+		scope:potential_chief_qadi = { custom_tooltip = rococo_muslim.001.a.tt_qadi }
+	}
+}
+
+rococo_muslim.001 = {# Someone comes forward to being a Chief Qadi.
+	type = court_event
+	title = rococo_muslim.001.t
+	desc = rococo_muslim.001.desc
+	theme = realm
+	override_sound = { reference = event:/SFX/Events/Themes/sfx_event_theme_type_generic }
+	lower_right_portrait = scope:potential_chief_qadi
+	lower_center_portrait = {
+		character = scope:potential_chief_qadi
+		trigger = {
+			scope:courtier.learning > medium_skill_rating
+			NOT = {	scope:vassal = { has_hook = root } }
+		}
+	}
+
+	court_scene = {
+		button_position_character = scope:vassal
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:vassal = {
+				group = petitioners_group
+				animation = admiration
+			}
+			scope:potential_chief_qadi = {
+				group = petitioners_group
+				animation = marshal
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+	
+	trigger = {
+		religion = religion:islam_religion
+		NOT = { has_court_position = chief_qadi_court_position }
+		any_vassal = { rococo_muslim_qadi_vassal_trigger = yes }
+		NOT = { has_character_flag = rococo_muslim_001_flag }
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {# Caliphs Should have a chief Qadi so make it more likely.
+			add = 1
+			OR = {
+				has_title = title:d_sunni # If you have the Sunni Caliphate
+				has_title = title:d_shiite # If you have the Shia Caliphate
+				has_title = title:d_imami # If you have the Imami Caliphate
+				has_title = title:d_ismaili # If you have the Ismaili Caliphate
+				has_title = title:d_nizari # If you have the Nizari Caliphate
+				has_title = title:d_zayidi # If you have the Zayidi Caliphate
+				has_title = title:d_masmudi # If you have the Masmudi Caliphate
+				has_title = title:d_muwalladi # If you have the Muwalladi Caliphate
+				has_title = title:d_ghulat # If you have the Ghulat Caliphate
+			}
+		}
+		# Court weightings.
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative } # Favoring An adminstrative, ie legal one.
+	}
+
+	immediate = {
+		random_vassal = { # Find a vassal with someone to present
+			limit = { rococo_muslim_qadi_vassal_trigger = yes }
+			save_scope_as = vassal
+			court_event_character_flag_effect = yes
+			if = {
+				limit = { any_close_or_extended_family_member = { rococo_muslim_qadi_candidate_trigger = yes } }
+				random_close_or_extended_family_member = { 
+					limit = { rococo_muslim_qadi_candidate_trigger = yes }
+					save_scope_as = potential_chief_qadi
+				}
+			}
+			else_if = {
+				limit = {
+					any_courtier = {
+						has_relation_friend = scope:vassal
+						rococo_muslim_qadi_candidate_trigger = yes
+					}
+				}
+				random_courtier = {
+					limit = {
+						has_relation_friend = scope:vassal
+						rococo_muslim_qadi_candidate_trigger = yes
+					}
+					save_scope_as = potential_chief_qadi
+				}
+			}
+		}
+		scope:potential_chief_qadi = {
+			court_event_character_flag_effect = yes
+		}
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
+
+	option = {# Accept
+		name = rococo_muslim.001.accept
+		highlight_portrait = scope:potential_chief_qadi
+		set_variable = {
+			name = rococo_muslim_001_promise
+			value = scope:potential_chief_qadi
+			years = 10
+		}
+		scope:vassal = {
+			add_opinion = {
+				modifier = grateful_opinion
+				target = root
+				opinion = 10
+			}
+			if = {
+				limit = { has_hook = root }
+				custom_tooltip = rococo_muslim.001.a.tt_hook
+				remove_hook = { target = root }
+			}
+		}
+		stress_impact = {
+			gallant = medium_stress_impact_loss
+			paranoid = medium_stress_impact_gain
+			shy = medium_stress_impact_gain
+		}
+		appoint_court_position = {
+			recipient = scope:potential_chief_qadi
+			court_position = chief_qadi_court_position
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.5
+				ai_compassion = 0.25
+			}
+			modifier = {
+				add = 30
+				number_of_knights < max_number_of_knights
+			}
+			modifier = {	#Weight up for stress.
+				add = 30
+				has_trait = gallant
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = paranoid
+			}
+		}
+	}
+	option = {# Take a hook if they suck
+		name = rococo_muslim.001.hook
+		trigger = {
+			scope:potential_chief_qadi.learning < medium_skill_rating
+			NOR = {
+				scope:vassal = { has_hook = root }
+				root = { has_hook = scope:vassal }
+			}
+		}
+		highlight_portrait = scope:vassal
+		set_variable = {
+			name = rococo_muslim_001_promise
+			value = scope:potential_chief_qadi
+			years = 10
+		}
+		scope:vassal = {
+			add_opinion = {
+				modifier = annoyed_opinion
+				target = root
+				opinion = -10
+			}
+		}
+		appoint_court_position = {
+			recipient = scope:potential_chief_qadi
+			court_position = chief_qadi_court_position
+		}
+		if = {
+			limit = {
+				can_add_hook = {
+					target = scope:vassal
+					type = indebted_hook
+				}
+			}
+			add_hook = {
+				target = scope:vassal
+				type = indebted_hook
+			}
+		}
+		stress_impact = {
+			generous = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_greed = 0.5
+				ai_rationality = 0.25
+				ai_compassion = -0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = generous
+			}
+		}
+	}
+	option = {# Refuse
+		name = {
+			trigger = { scope:potential_chief_qadi.learning >= 20 }
+			text = rococo_muslim.001.refuse.talented
+		}
+		name = {
+			trigger = {
+				scope:potential_chief_qadi.learning < 20
+				scope:potential_chief_qadi.learning >= 14
+			}
+			text = rococo_muslim.001.refuse.suitable
+		}
+		name = {
+			trigger = {
+				scope:potential_chief_qadi.learning < 14
+				scope:potential_chief_qadi.learning >= 8
+			}
+			text = rococo_muslim.001.refuse.passing
+		}
+		name = {
+			trigger = {
+				scope:potential_chief_qadi.learning < 8
+			}
+			text = rococo_muslim.001.refuse.unsuitable
+		}
+		trigger = {	NOT = {	scope:vassal = { has_hook = root }	} }
+		scope:vassal = {
+			add_opinion = {
+				modifier = refusal_opinion
+				target = root
+				opinion = -10
+			}
+		}
+		scope:potential_chief_qadi = {
+			add_prestige = minor_prestige_loss
+			add_opinion = {
+				modifier = refusal_opinion
+				target = root
+				opinion = -20
+			}
+			progress_towards_rival_effect = {
+				CHARACTER = root
+				REASON = rival_refused_service
+				OPINION = 0
+			}
+		}
+		if = {# Caliphs refusing is very bad
+			trigger = {
+				OR = {
+					has_title = title:d_sunni # If you have the Sunni Caliphate
+					has_title = title:d_shiite # If you have the Shia Caliphate
+					has_title = title:d_imami # If you have the Imami Caliphate
+					has_title = title:d_ismaili # If you have the Ismaili Caliphate
+					has_title = title:d_nizari # If you have the Nizari Caliphate
+					has_title = title:d_zayidi # If you have the Zayidi Caliphate
+					has_title = title:d_masmudi # If you have the Masmudi Caliphate
+					has_title = title:d_muwalladi # If you have the Muwalladi Caliphate
+					has_title = title:d_ghulat # If you have the Ghulat Caliphate
+				}
+			}
+			add_piety = medium_piety_loss
+			add_prestige = medium_prestige_loss
+			every_vassal = {
+				custom = all_vassals
+				add_opinion = {
+					target = root
+					modifier = refused_chief_qadi_opinion
+				}
+			}
+		}
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_compassion = -0.5
+			}
+			modifier = {
+				add = 15
+				scope:potential_chief_qadi.learning < 10
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = compassionate
+			}
+		}
+	}
+
+	after = {
+		scope:rumormonger = {
+			clear_court_event_participation = yes
+		}
+		scope:neighboring_ruler = {
+			clear_court_event_participation = yes
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
+rococo_muslim.002 = {# Vassal is angry you fired your Chief Qadi
+	type = court_event
+	title = rococo_muslim.002.t
+	desc = rococo_muslim.002.desc
+	theme = court
+	court_scene = {
+		button_position_character = scope:vassal
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:vassal = {
+				group = petitioners_group
+				animation = anger
+			}
+			scope:potential_chief_qadi = {
+				group = petitioners_group
+				animation = shame
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+		 	add = 3
+			var:rococo_muslim_001_promise = { rococo_muslim_001_angry_trigger = yes }
+		}
+
+		# Court weightings.
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		var:rococo_muslim_001_promise = { save_scope_as = potential_chief_qadi }
+		add_character_flag = {
+			flag = rococo_muslim_002_flag
+			years = 15
+		}
+	}
+
+	option = { # Reinstate
+		name = rococo_muslim.002.a
+		scope:potential_chief_qadi = {
+			if = {
+				limit = { scope:potential_chief_qadi.employer = root }
+				custom_tooltip = rococo_muslim.002.a.tt_qadi
+			}
+			else = {
+				hidden_effect = { set_employer = root }
+				custom_tooltip = rococo_muslim.001.a.tt_qadi
+			}
+		}
+		appoint_court_position = {
+			recipient = scope:potential_chief_qadi
+			court_position = chief_qadi_court_position
+		}
+		trigger_event = {
+			id = rococo_muslim.004
+			days = 365
+		}
+		stress_impact = {
+			arbitrary = medium_stress_impact_gain
+		}	
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_compassion = -0.25
+				ai_honor = -0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = arbitrary
+			}
+		}
+	}
+	option = { # Refuse
+		name = rococo_muslim.002.b
+		scope:vassal = { hold_court_002_promise_opinion_effect = yes }
+		scope:potential_chief_qadi = { 
+			hold_court_8051_promise_opinion_effect = yes
+			hidden_effect = {
+				return_to_court = yes
+				set_employer = scope:vassal
+			}
+			custom_tooltip = rococo_muslim.002.b.tt_return
+		}
+		remove_variable = rococo_muslim_001_promise
+		stress_impact = {
+			just = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_compassion = -0.25
+				ai_honor = -0.25
+			}
+			modifier = {
+				add = 15
+				scope:potential_chief_qadi.prowess < 10
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = just
+			}
+		}
+	}
+}
+rococo_muslim.003 = {# Vassal is apoplectic! You the fired Qadi again!
+	type = court_event
+	title = rococo_muslim.002.t
+	desc = {
+		desc = rococo_muslim.002.desc.intro
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:vassal = { has_trait = wrathful }
+				}
+				desc = rococo_muslim.003.desc.wrath
+			}
+			desc = rococo_muslim.003.desc.fallback
+		}
+	}
+	theme = court
+	court_scene = {
+		button_position_character = scope:vassal
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:vassal = {
+				group = petitioners_group
+				animation = rage
+			}
+			scope:knight = {
+				group = petitioners_group
+				animation = marshal
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+		 	add = 3
+			var:hold_court_8050_promise = { hold_court_8050_angry_trigger = yes }
+		}
+
+		# Court weightings.
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_warlike }
+	}
+
+	immediate = {
+		var:hold_court_8050_promise = {
+			save_scope_as = knight
+			var:hold_court_8050_knight = { save_scope_as = vassal }
+			remove_variable = hold_court_8050_knight
+		}
+		scope:vassal = { hold_court_8051_promise_opinion_effect = yes }
+		scope:knight = { hold_court_8051_promise_opinion_effect = yes }
+	}
+
+	option = {# Oh get over it
+		name = rococo_muslim.003.a
+		scope:potential_chief_qadi = {
+			hidden_effect = {
+				return_to_court = yes
+				set_employer = scope:vassal
+			}
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_vengefulness = -0.5
+				ai_boldness = -0.5
+			}
+		}
+	}
+	option = {# Arrest them
+		name = rococo_muslim.003.b
+		trigger = {
+			scope:vassal = { has_trait = wrathful }
+			OR = {
+				has_trait = vengeful
+				has_trait = wrathful
+				has_trait = arrogant
+			}
+		}
+
+		imprison_character_effect = {
+			TARGET = scope:vassal
+			IMPRISONER = root
+		}
+		scope:vassal = { hold_court_8051_promise_opinion_effect = yes }
+		scope:potential_chief_qadi = {
+			hold_court_8051_promise_opinion_effect = yes
+			hidden_effect = {
+				return_to_court = yes
+				set_employer = scope:vassal
+			}
+		}
+		stress_impact = {
+			just = medium_stress_impact_gain
+			forgiving = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_vengefulness = 2
+				ai_boldness = 0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = just
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = forgiving
+			}
+		}
+	}
+
+	after = { remove_variable = rococo_muslim_001_promise }
+}
+rococo_muslim.004 = {# Hidden Event Check
+	hidden = yes
+
+	trigger = {
+		has_variable = rococo_muslim_001_promise
+		primary_title.tier >= tier_kingdom 
+	}
+	immediate = {
+		if = {
+			limit = { rococo_muslim_qadi_fired_trigger = yes }
+			if = {
+				limit = { has_variable = rococo_muslim_002_flag }
+				trigger_event = rococo_muslim.003
+			}
+			else = { trigger_event = rococo_muslim.002 }
+		}
+		else = {
+			trigger_event = {
+				id = rococo_muslim.004
+				days = 365
+			}
+		}
+	}
+}
+##################################################
+# Chief Qadi Events
+##################################################
+
+##################################################
+# Chief Qadi Events
+##################################################
+
+##################################################
+# Chief Qadi Events
+##################################################
+
+##################################################
+# Chief Qadi Events
+##################################################
+
+##################################################
+# Chief Qadi Events
+##################################################
+
+##################################################
+# Chief Qadi Events
+##################################################
+
+##################################################
+# Chief Qadi Events
+##################################################
+
+
