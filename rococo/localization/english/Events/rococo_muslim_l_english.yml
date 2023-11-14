@@ -27,6 +27,7 @@
     rococo_muslim.002.a.tt_qadi:1 "[potential_chief_qadi.GetFirstName] will become a [potential_chief_qadi|E] again"
     rococo_muslim.002.b:0 "[potential_chief_qadi.GetSheHe|U] is no great loss."
     rococo_muslim.002.b.tt_return:0 "[potential_chief_qadi.GetFirstNameNoTooltip] will return to [vassal.GetTitledFirstNamePossessiveNoTooltip] court"
+
   # The Final Straw
     rococo_muslim.003.t:0 "$hold_court.8050.t$: Final Straw"
     rococo_muslim.003.desc.intro:0 "[vassal.GetTitledFirstName] wastes no time upon hearing that [potential_chief_qadi.GetFirstName] has been removed as my chief Qadi yet again, and demands an audience. \n\n"
@@ -34,7 +35,13 @@
     rococo_muslim.003.desc.fallback:0 "[vassal.GetSheHe|U] makes plain [vassal.GetHerHis] disappointment, clearly riled by the embarrassment my actions have caused [vassal.GetHerHim]..."
     rococo_muslim.003.a:0 "Oh–such drama!"
     rococo_muslim.003.b:0 "Guards, arrest that [vassal.Custom('InsultNoun')]!"
-
-
+#######################################
+# Sharia Events
+#######################################
+  # A drunkard
+    rococo_muslim.010.t:0 "A Drunkard"
+    rococo_muslim.010.desc:0 "[chief_qadi.GetTitledFirstName], Your chief Qadi has entered with [drunkard.GetTitledFirstName]. "My [ROOT.Char.GetTitleTierName], this man is guilty of being a drunkard. He must be punished." You can let him deliver the punishment, and have the man flogged, or you could pardon him."
+    rococo_muslim.010.a:0 "[drunkard.GetTitledFirstName] shall be flogged as is due"
+    rococo_muslim.010.b:0 "He shall be Pardoned."
 
  

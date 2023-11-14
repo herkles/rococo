@@ -201,23 +201,7 @@ rococo_muslim.001 = {# Someone comes forward to being a Chief Qadi.
 			court_position = chief_qadi_court_position
 		}
 		ai_chance = {
-			base = 100
-			ai_value_modifier = {
-				ai_honor = 0.5
-				ai_compassion = 0.25
-			}
-			modifier = {
-				add = 30
-				number_of_knights < max_number_of_knights
-			}
-			modifier = {	#Weight up for stress.
-				add = 30
-				has_trait = gallant
-			}
-			modifier = {	#Weight down for stress.
-				add = -30
-				has_trait = paranoid
-			}
+			base = 80
 		}
 	}
 	option = {# Take a hook if they suck
@@ -262,16 +246,7 @@ rococo_muslim.001 = {# Someone comes forward to being a Chief Qadi.
 			generous = medium_stress_impact_gain
 		}
 		ai_chance = {
-			base = 100
-			ai_value_modifier = {
-				ai_greed = 0.5
-				ai_rationality = 0.25
-				ai_compassion = -0.25
-			}
-			modifier = {	#Weight down for stress.
-				add = -30
-				has_trait = generous
-			}
+			base = 80
 		}
 	}
 	option = {# Refuse
@@ -348,18 +323,7 @@ rococo_muslim.001 = {# Someone comes forward to being a Chief Qadi.
 			compassionate = medium_stress_impact_gain
 		}
 		ai_chance = {
-			base = 100
-			ai_value_modifier = {
-				ai_compassion = -0.5
-			}
-			modifier = {
-				add = 15
-				scope:potential_chief_qadi.learning < 10
-			}
-			modifier = {	#Weight down for stress.
-				add = -15
-				has_trait = compassionate
-			}
+			base = 20
 		}
 	}
 
@@ -635,8 +599,192 @@ rococo_muslim.004 = {# Hidden Event Check
 	}
 }
 ##################################################
-# Chief Qadi Events
+# Sharia Law Events
 ##################################################
+rococo_muslim.010 = {# Drunkard
+	type = court_event
+	title = rococo_muslim.010.t
+	desc = rococo_muslim.010.desc
+	theme = realm
+	override_sound = { reference = event:/SFX/Events/Themes/sfx_event_theme_type_generic }
+	lower_right_portrait = scope:drunkard
+	lower_center_portrait =	scope:chief_qadi
+
+	court_scene = {
+		button_position_character = scope:vassal
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:vassal = {
+				group = petitioners_group
+				animation = admiration
+			}
+			scope:potential_chief_qadi = {
+				group = petitioners_group
+				animation = marshal
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+	
+	trigger = {
+		religion = religion:islam_religion
+		has_court_position = chief_qadi_court_position
+		any_vassal = { rococo_muslim_qadi_vassal_trigger = yes }
+		any_courtier_or_guest = {
+			religion = religion:islam_religion
+			has_trait = drunkard
+			has_court_event_flag = no
+		}
+		NOT = { has_character_flag = rococo_muslim_010_flag }
+	}
+
+	weight_multiplier = {
+		base = 1
+		# Court weightings.
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative } # Favoring An adminstrative, ie legal one.
+	}
+
+	immediate = {
+		random_courtier_or_guest = {
+			limit = {
+				has_court_event_flag = no
+				has_trait = drunkard
+				religion = religion:islam_religion
+			}
+			save_scope_as = drunkard
+			court_event_character_flag_effect = yes
+		}
+		random_court_position_holder = {
+			type = chief_qadi_court_position
+			limit = {
+				has_court_event_flag = no
+				is_available_ai_adult = yes
+			}
+			save_scope_as = chief_qadi
+			court_event_character_flag_effect = yes
+		}
+	}
+
+	option = {# Flog the Drunkard
+		name = rococo_muslim.010.flogged
+		highlight_portrait = scope:drunkard
+		scope:chief_qadi = {# Chief Qadi approves of supporting the laws
+			add_opinion = {
+				modifier = grateful_opinion
+				target = root
+				opinion = 10
+			}
+		}
+		scope:drunkard = {# Drunkard doesn't like to be punished
+			add_opinion = {
+				modifier = grateful_opinion
+				target = root
+				opinion = 10
+			}
+		}
+		scope:drunkard = {# Drunkard is flogged
+			random = 5 {
+			}
+			random = 50 {
+				increase_wounds_no_death_effect = { REASON = flogged_by_censors }
+			}
+			random = 45 {
+				add_trait = scarred
+			}
+		}
+		stress_impact = {
+			sadistic = medium_stress_impact_loss
+			callous = medium_stress_impact_loss
+			zealous = minor_stress_impact_loss
+			compassionate = medium_stress_impact_gain
+			forgiving = medium_stress_impact_gain
+		}		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.5
+				ai_compassion = 0.25
+			}
+			modifier = {# Weight up for stress.
+				add = 30
+				OR = {
+					has_trait = sadistic
+					has_trait = callous
+				}
+			}
+			modifier = {# Weight down for stress.
+				add = -30
+				OR = {
+					has_trait = sadistic
+					has_trait = callous
+				}
+			}
+		}
+	}
+	option = {# Pardon the Drunkard
+		name = rococo_muslim.010.pardon
+		scope:chief_qadi = {# Chief Qadi disapproves 
+			add_opinion = {
+				modifier = grateful_opinion
+				target = root
+				opinion = 10
+			}
+		}
+		scope:drunkard = {# Drunkard likes being pardoned
+			add_opinion = {
+				modifier = grateful_opinion
+				target = root
+				opinion = 10
+			}
+		}
+		stress_impact = {
+			sadistic = medium_stress_impact_gain
+			callous = medium_stress_impact_gain
+			zealous = minor_stress_impact_loss
+			compassionate = medium_stress_impact_loss
+			forgiving = medium_stress_impact_loss
+		}		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.5
+				ai_compassion = 0.25
+			}
+			modifier = {# Weight up for stress.
+				add = -30
+				OR = {
+					has_trait = sadistic
+					has_trait = callous
+				}
+			}
+			modifier = {# Weight down for stress.
+				add = 30
+				OR = {
+					has_trait = sadistic
+					has_trait = callous
+				}
+			}
+		}
+	}
+
+	after = {
+		scope:rumormonger = {
+			clear_court_event_participation = yes
+		}
+		scope:neighboring_ruler = {
+			clear_court_event_participation = yes
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
 
 ##################################################
 # Chief Qadi Events
