@@ -1,35 +1,730 @@
 ﻿namespace = rococo_christian
 
-##################################################
-# Chief Qadi getting Picked
-##################################################
+#######################################
+#									  #
+#      General Christian Events	      #
+#									  #
+#######################################
 
-##################################################
-# Sharia Law Events
-##################################################
+# Dispute between a Monastery and Bishopric
+# Heresy Trial
+# Asking Pagans for hospitality to Spread the message of Jesus
 
-##################################################
-# Chief Qadi Events
-##################################################
+#######################################
+#									  #
+#      Catholic Christian Events	  #
+#									  #
+#######################################
+scripted_trigger rococo_is_catholic = {
+	religion = religion:christianity_religion
+	exists = faith.religious_head
+	faith.religious_head_title = title:k_papal_state
+}
+# Two Bishops clash over land
+# Two bishoprics clash over who should have a local saint's relics.
 
-##################################################
-# Chief Qadi Events
-##################################################
+#######################################
+#									  #
+#      Orthodox Christian Events	  #
+#									  #
+#######################################
 
-##################################################
-# Chief Qadi Events
-##################################################
+# Artist wishes to create a Holy Icon
 
-##################################################
-# Chief Qadi Events
-##################################################
-
-##################################################
-# Chief Qadi Events
-##################################################
-
-##################################################
-# Chief Qadi Events
-##################################################
+#######################################
+#									  #
+#      Coptic Christian Events	      #
+#									  #
+#######################################
 
 
+#######################################
+#									  #
+#      Gnostic Christian Events	      #
+#									  #
+#######################################
+scripted_trigger rococo_is_gnostic_christian = {# for the Gnostic Christian Faiths
+	AND = {
+		religion = religion:christianity_religion
+		faith = { has_doctrine = tenet_gnosticism }
+	}
+}
+
+# Composing the New Gnostic Bible
+# Iconoclasm vs Iconophile
+# Relationship with the Jews?
+# Promoting Pescetarianism
+
+#######################################
+#									  #
+#      Protestant Christian Events    #
+#									  #
+#######################################
+scripted_trigger rococo_is_proto_protestant = {
+	OR = {
+		faith = faith:waldensian
+		faith = faith:lollard
+	}
+}
+
+
+rococo_christian.500 = {# Arts and Crafts vs Simple Living
+	type = court_event
+	title = rococo_christian.500.t 
+	desc = rococo_christian.500.desc
+	theme = martial_authority_focus
+	court_scene = {
+		button_position_character = scope:wants_simple_vassal
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:wants_art_vassal = {
+				group = petitioners_group
+				animation = worry
+			}
+			scope:wants_simple_vassal = {
+				group = petitioners_group
+				animation = rage
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = has_had_art_simple_living_debate }
+		rococo_is_proto_protestant = yes
+		any_vassal = {
+			is_ai = yes
+			has_court_event_flag = no
+			rococo_is_proto_protestant = yes
+			OR = {
+				has_trait = zealous
+				has_trait = lifestyle_mystic
+				has_trait = chaste
+				has_trait = inappetetic
+				has_trait = temperate 
+			}
+			save_temporary_scope_as = same_vassal_check
+		}
+		any_vassal = {
+			is_ai = yes
+			has_court_event_flag = no
+			rococo_is_proto_protestant = yes
+			OR = {	
+				has_trait = diligent
+				has_trait = architect
+				has_trait = theologian
+				has_trait = lifestyle_reveler 
+				has_trait = generous
+			}
+			NOT = { this = scope:same_vassal_check }
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		# Court weightings.
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_scholarly }
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = has_had_art_simple_living_debate
+			days = 1825
+		}
+		random_vassal = {# the Vassal that prefers Simple living
+			weight = {
+				base = 1
+				modifier = {
+					factor = 5
+					is_powerful_vassal = yes
+				}
+				modifier = {
+					factor = 20
+					has_trait = zealous
+				}
+				modifier = {
+					is_knight_of = root
+					factor = 10
+				}
+				modifier = {
+					has_trait = temperate
+					factor = 10
+				}
+				modifier = {
+					has_trait = chaste
+					factor = 10
+				}
+				modifier = {
+					has_trait = lifestyle_mystic
+					factor = 10
+				}
+				modifier = {
+					has_trait = lifestyle_gardener
+					factor = 10
+				}
+			}
+			limit = {
+				is_ai = yes
+				has_court_event_flag = no
+				OR = {
+					has_trait = zealous
+					has_trait = lifestyle_mystic
+					has_trait = chaste
+					has_trait = temperate
+					has_trait = lifestyle_gardener 
+				}
+			}
+			save_scope_as = wants_simple_vassal
+			court_event_character_flag_effect = yes
+		}
+		random_vassal = {
+			weight = {
+				base = 1
+				modifier = {
+					factor = 5
+					is_powerful_vassal = yes
+				}
+				modifier = {
+					factor = 20
+					has_trait = lifestyle_reveler
+				}
+				modifier = {
+					is_knight_of = root
+					factor = 10
+				}
+				modifier = {
+					has_trait = diligent
+					factor = 10
+				}
+				modifier = {
+					has_trait = architect
+					factor = 10
+				}
+				modifier = {
+					has_trait = theologian
+					factor = 10
+				}
+				modifier = {
+					has_trait = generous
+					factor = 10
+				}
+			}
+			limit = {
+				is_ai = yes
+				has_court_event_flag = no
+				OR = {	
+					has_trait = diligent
+					has_trait = architect
+					has_trait = theologian
+					has_trait = lifestyle_reveler 
+					has_trait = generous
+				}
+				NOT = { this = scope:wants_simple_vassal }
+			}
+			save_scope_as = wants_art_vassal
+			court_event_character_flag_effect = yes
+		}
+		scope:wants_simple_vassal = {
+			if = {
+				limit = {
+					NOT = { has_relation_rival = scope:wants_art_vassal }
+				}
+				set_relation_rival = {
+					target = scope:wants_art_vassal
+					reason = rivaly_art_simple_living_disagreement
+				}
+			}
+		}
+		# Trigger next event in chain.
+		hold_court_queue_post_event_effect = yes
+	}
+
+	option = {# Simple Living
+		name = rococo_christian.500.a
+		add_character_modifier = {
+			modifier = failed_deception_modifier
+			years = 5
+		}
+		scope:wants_simple_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+		scope:wants_art_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = -20
+			}
+		}
+		stress_impact = {
+			reckless = minor_stress_gain
+			wrathful = minor_stress_gain
+			paranoid = minor_stress_gain
+			sadistic = minor_stress_gain
+			lifestyle_blademaster = major_stress_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = -0.25
+				ai_compassion = 0.25
+			}
+		}
+	}
+	option = {# Arts and Crafts
+		name = rococo_christian.500.b
+		scope:wants_simple_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+		scope:wants_art_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = -20
+			}
+		}
+		stress_impact = {
+			craven = minor_stress_gain
+			just = minor_stress_gain
+			calm = minor_stress_gain
+			trusting = minor_stress_gain
+			compassionate = minor_stress_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = 0.25
+				ai_compassion = -0.25
+			}
+		}
+	}	
+	option = {# Try to find a balance
+		name = rococo_christian.500.c
+		duel = {
+			skill = diplomacy
+			target = scope:wants_simple_vassal
+			8 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 2
+				}
+				desc = rococo_christian.500.c.tt_success
+				send_interface_toast = {
+					title = rococo_christian.500.c.tt_success
+					left_icon = scope:wants_simple_vassal
+					scope:wants_simple_vassal = {
+						add_opinion = {
+							modifier = pleased_opinion
+							target = root
+							opinion = 10
+						}
+					}
+					scope:wants_art_vassal = {
+						add_opinion = {
+							modifier = pleased_opinion
+							target = root
+							opinion = 10
+						}
+					}					
+					add_character_modifier = {
+						modifier = failed_deception_modifier
+						years = 5
+					}
+				}
+			}
+			8 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = hold_court.500.c.tt_failure
+				send_interface_toast = {
+					title = hold_court.500.c.tt_failure
+					left_icon = scope:wants_simple_vassal
+					add_prestige = minor_prestige_loss
+					scope:wants_simple_vassal = {
+						add_opinion = {
+							modifier = disappointed_opinion
+							target = root
+							opinion = -10
+						}
+					}
+					scope:wants_art_vassal = {
+						add_opinion = {
+							modifier = disappointed_opinion
+							target = root
+							opinion = -10
+						}
+					}					
+				}
+			}
+		}
+		stress_impact = {
+			arbitrary = major_stress_loss
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_greed = 1
+				ai_rationality = 0.5
+			}
+		}
+	}
+
+	after = {
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+		scope:wants_weapons_vassal = {
+			clear_court_event_participation = yes
+		}
+		scope:wants_safety_vassal = {
+			clear_court_event_participation = yes
+		}
+	}
+}	
+rococo_christian.501 = {# Priests debate the nature of holidays
+	type = court_event
+	title = rococo_christian.501.t 
+	desc = rococo_christian.501.desc
+	theme = martial_authority_focus
+	court_scene = {
+		button_position_character = scope:anti_holidays_priest
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:pro_holidays_priest = {
+				group = petitioners_group
+				animation = worry
+			}
+			scope:anti_holidays_priest = {
+				group = petitioners_group
+				animation = rage
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = has_had_holiday_debate }
+		rococo_is_proto_protestant = yes
+		any_courtier = {
+				rococo_is_proto_protestant = yes
+				OR = {
+					has_trait = education_learning
+					has_trait = devoted
+					has_trait = theologian
+					is_clergy = yes
+				}
+				save_temporary_scope_as = same_vassal_check
+			}
+		any_courtier = {
+			rococo_is_proto_protestant = yes
+			OR = {
+				has_trait = education_learning
+				has_trait = devoted
+				has_trait = theologian
+				is_clergy = yes
+			}
+			NOT = { this = scope:same_vassal_check }
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		# Court weightings.
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_scholarly }
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = has_had_holiday_debate
+			days = 1825
+		}
+		random_courtier = {# the anti-holiday priest
+			weight = {
+				base = 1
+				modifier = {
+					factor = 5
+					is_powerful_vassal = yes
+				}
+				modifier = {
+					factor = 20
+					has_trait = zealous
+				}
+				modifier = {
+					is_knight_of = root
+					factor = 10
+				}
+				modifier = {
+					has_trait = education_learning
+					factor = 10
+				}
+				modifier = {
+					has_trait = devoted
+					factor = 10
+				}
+				modifier = {
+					has_trait = lifestyle_mystic
+					factor = 10
+				}
+				modifier = {
+					has_trait = theologian
+					factor = 10
+				}
+			}
+			limit = {
+				is_ai = yes
+				has_court_event_flag = no
+				rococo_is_proto_protestant = yes
+				OR = {
+					has_trait = education_learning
+					has_trait = devoted
+					has_trait = theologian
+					has_trait = zealous
+					has_trait = lifestyle_mystic
+					is_clergy = yes
+				}
+			}
+			save_scope_as = anti_holidays_priest
+			court_event_character_flag_effect = yes
+		}
+		random_courtier = {
+			weight = {
+				base = 1
+				modifier = {
+					factor = 5
+					is_powerful_vassal = yes
+				}
+				modifier = {
+					factor = 20
+					has_trait = lifestyle_reveler
+				}
+				modifier = {
+					is_knight_of = root
+					factor = 10
+				}
+				modifier = {
+					has_trait = education_learning
+					factor = 10
+				}
+				modifier = {
+					has_trait = devoted
+					factor = 10
+				}
+				modifier = {
+					has_trait = theologian
+					factor = 10
+				}
+			}
+			limit = {
+				is_ai = yes
+				has_court_event_flag = no
+				rococo_is_proto_protestant = yes
+				OR = {
+					has_trait = education_learning
+					has_trait = devoted
+					has_trait = theologian
+					has_trait = lifestyle_reveler
+					is_clergy = yes
+				}
+				NOT = { this = scope:anti_holidays_priest }
+			}
+			save_scope_as = pro_holidays_priest
+			court_event_character_flag_effect = yes
+		}
+		scope:anti_holidays_priest = {
+			if = {
+				limit = { NOT = { has_relation_rival = scope:pro_holidays_priest } }
+				set_relation_rival = {
+					target = scope:pro_holidays_priest
+					reason = rivaly_holiday_disagreement
+				}
+			}
+		}
+		# Trigger next event in chain.
+		hold_court_queue_post_event_effect = yes
+	}
+
+	option = {# Ban Holidays!
+		name = rococo_christian.501.a
+		every_held_county = {
+			custom = custom.every_held_county
+			add_county_modifier = {
+				modifier = rococo_holiday_ban_modifier
+				years = 50
+			}
+		}
+		scope:anti_holidays_priest = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+		scope:pro_holidays_priest = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = -20
+			}
+		}
+		stress_impact = {
+			reckless = minor_stress_gain
+			wrathful = minor_stress_gain
+			paranoid = minor_stress_gain
+			sadistic = minor_stress_gain
+			lifestyle_blademaster = major_stress_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = -0.25
+				ai_compassion = 0.25
+			}
+		}
+	}
+	option = {# Keep Holidays
+		name = rococo_christian.501.b
+		add_character_modifier = {
+			modifier = failed_deception_modifier
+			years = 5
+		}		
+		scope:anti_holidays_priest = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+		scope:pro_holidays_priest = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = -20
+			}
+		}
+		stress_impact = {
+			craven = minor_stress_gain
+			just = minor_stress_gain
+			calm = minor_stress_gain
+			trusting = minor_stress_gain
+			compassionate = minor_stress_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = 0.25
+				ai_compassion = -0.25
+			}
+		}
+	}	
+	option = {# Try to find a balance
+		name = rococo_christian.501.c
+		duel = {
+			skill = learning
+			target = scope:anti_holidays_priest
+			8 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 2
+				}
+				desc = rococo_christian.501.c.tt_success
+				send_interface_toast = {
+					title = rococo_christian.501.c.tt_success
+					left_icon = scope:anti_holidays_priest
+					scope:anti_holidays_priest = {
+						add_opinion = {
+							modifier = pleased_opinion
+							target = root
+							opinion = 10
+						}
+					}
+					scope:pro_holidays_priest = {
+						add_opinion = {
+							modifier = pleased_opinion
+							target = root
+							opinion = 10
+						}
+					}					
+				}
+			}
+			8 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = hold_court.501.c.tt_failure
+				send_interface_toast = {
+					title = hold_court.501.c.tt_failure
+					left_icon = scope:anti_holidays_priest
+					add_prestige = minor_prestige_loss
+					scope:anti_holidays_priest = {
+						add_opinion = {
+							modifier = disappointed_opinion
+							target = root
+							opinion = -10
+						}
+					}
+					scope:pro_holidays_priest = {
+						add_opinion = {
+							modifier = disappointed_opinion
+							target = root
+							opinion = -10
+						}
+					}					
+				}
+			}
+		}
+		stress_impact = {
+			arbitrary = major_stress_loss
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_greed = 1
+				ai_rationality = 0.5
+			}
+		}
+	}
+
+	after = {
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+		scope:wants_weapons_vassal = {
+			clear_court_event_participation = yes
+		}
+		scope:wants_safety_vassal = {
+			clear_court_event_participation = yes
+		}
+	}
+} 
+# debate on statues and artwork 
+# How to deal with Catholics?
+# preacher's publish tracts criticizing the Catholic Church
+# Debate over the nature of Confession
+# Transubstantiation debate
+# Exorcisms and Hallowings, be they Necromancy or Blessings
+# What to do about monasteries?

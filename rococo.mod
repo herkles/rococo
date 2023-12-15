@@ -3,5 +3,5 @@ tags={
 	"Events"
 }
 name="Royal Court Content"
-supported_version="1.11.0.1"
+supported_version="1.11.3"
 path="mod/rococo"

@@ -1,0 +1,15 @@
+﻿l_english:
+#######################################
+# Proto-Prostant modifiers
+#######################################
+ rococo_county_simple_living_modifier:0 "Enforced Asceticism"
+ rococo_county_simple_living_modifier_desc:1 "The ruler of this county is enforcing a simple living lifestyle. Asceticism is the rule in these lands."
+
+ rococo_county_simple_compromise_modifier:0 "Supporting Simple Living"
+ rococo_county_simple_compromise_modifier_desc:1 "The ruler of this county is supporting, but not enforcing, a simple living lifestyle."
+
+ rococo_county_banned_holidays_modifier:0 "Banned Holidays"
+ rococo_county_banned_holidays_modifier_desc:1 "In this county, the traditional holidays have been banned and a focus on faith and piety is expected."
+
+ rococo_kept_holidays_modifier:0 "Refused to ban holidays"
+ rococo_kept_holidays_modifier_desc:1 "This character has rejected a demand to ban holidays by some of their clergy."

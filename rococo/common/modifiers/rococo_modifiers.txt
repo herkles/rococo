@@ -1,0 +1,35 @@
+﻿
+#######################################
+#									  #
+#      	 Christian Modifiers	      #
+#									  #
+#######################################
+rococo_simple_living_modifier = {
+	icon = piety_positive
+	health = miniscule_health_penalty
+	monthly_piety_gain_mult = 0.1
+	theocracy_government_opinion_same_faith = 15
+}
+rococo_simple_compromise_modifier = {
+	icon = piety_positive
+	health = miniscule_health_penalty
+	monthly_piety_gain_mult = 0.05
+	theocracy_government_opinion_same_faith = 05
+}
+
+rococo_county_banned_holidays_modifier = {	
+	icon = county_modifier_control_positive
+	county_opinion_add = -15
+	tax_mult = 0.1
+	development_growth_factor = tiny_development_growth_gain
+}
+rococo_kept_holidays_modifier = {
+	icon = piety_negative
+	monthly_piety_gain_mult = -0.2
+	religious_vassal_opinion = -10
+}
+
+
+
+
+
