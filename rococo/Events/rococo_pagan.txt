@@ -9,7 +9,7 @@ rococo_pagan.001 = {# argument over who gets to sacrifice the animals
 	type = court_event
 	title = rococo_pagan.001.t 
 	desc = rococo_pagan.001.desc
-	theme = martial_authority_focus
+	theme = court
 	court_scene = {
 		button_position_character = scope:powerful_vassal_one
 		court_event_force_open = yes
@@ -18,11 +18,11 @@ rococo_pagan.001 = {# argument over who gets to sacrifice the animals
 		roles = {
 			scope:powerful_vassal_one = {
 				group = petitioners_group
-				animation = worry
+				animation = throne_room_kneel_1
 			}
 			scope:powerful_vassal_two = {
 				group = petitioners_group
-				animation = rage
+				animation = throne_room_kneel_1
 			}
 		}
 	}
@@ -122,13 +122,6 @@ rococo_pagan.001 = {# argument over who gets to sacrifice the animals
 				opinion = -20
 			}
 		}
-		stress_impact = {
-			reckless = minor_stress_gain
-			wrathful = minor_stress_gain
-			paranoid = minor_stress_gain
-			sadistic = minor_stress_gain
-			lifestyle_blademaster = major_stress_gain
-		}
 		ai_chance = {
 			base = 50
 			ai_value_modifier = {
@@ -152,13 +145,6 @@ rococo_pagan.001 = {# argument over who gets to sacrifice the animals
 				modifier = respect_opinion
 				opinion = -20
 			}
-		}
-		stress_impact = {
-			reckless = minor_stress_gain
-			wrathful = minor_stress_gain
-			paranoid = minor_stress_gain
-			sadistic = minor_stress_gain
-			lifestyle_blademaster = major_stress_gain
 		}
 		ai_chance = {
 			base = 50
@@ -226,7 +212,8 @@ rococo_pagan.001 = {# argument over who gets to sacrifice the animals
 			}
 		}
 		stress_impact = {
-			arbitrary = major_stress_loss
+			just = minor_stress_loss
+			arbitrary = minor_stress_gain
 		}
 		ai_chance = {
 			base = 50
@@ -252,7 +239,7 @@ rococo_pagan.002 = {# Honoring other pagan faiths gods
 	type = court_event
 	title = rococo_pagan.001.t 
 	desc = rococo_pagan.001.desc
-	theme = martial_authority_focus
+	theme = court
 	court_scene = {
 		button_position_character = scope:powerful_vassal_one
 		court_event_force_open = yes
@@ -261,7 +248,7 @@ rococo_pagan.002 = {# Honoring other pagan faiths gods
 		roles = {
 			scope:other_pagan_vassal = {
 				group = petitioners_group
-				animation = worry
+				animation = throne_room_bow_1
 			}
 		}
 	}
@@ -361,11 +348,10 @@ rococo_pagan.002 = {# Honoring other pagan faiths gods
 			}
 		}
 		stress_impact = {
-			reckless = minor_stress_gain
-			wrathful = minor_stress_gain
-			paranoid = minor_stress_gain
-			sadistic = minor_stress_gain
-			lifestyle_blademaster = major_stress_gain
+			just = minor_stress_loss
+			theologian = minor_stress_loss
+			cynical = minor_stress_loss
+			zealous = minor_stress_gain
 		}
 		ai_chance = {
 			base = 50
@@ -394,14 +380,13 @@ rococo_pagan.002 = {# Honoring other pagan faiths gods
 				target = root
 				modifier = approving_opinion
 			}
-		}		
-		stress_impact = {
-			reckless = minor_stress_gain
-			wrathful = minor_stress_gain
-			paranoid = minor_stress_gain
-			sadistic = minor_stress_gain
-			lifestyle_blademaster = major_stress_gain
 		}
+		stress_impact = {
+			just = minor_stress_gain
+			theologian = minor_stress_gain
+			cynical = minor_stress_gain
+			zealous = minor_stress_loss
+		}		
 		ai_chance = {
 			base = 50
 			ai_value_modifier = {
@@ -436,7 +421,7 @@ rococo_pagan.003 = {# Peasants need firewood and chopped down a sacred grove
 		roles = {
 			scope:peasant = {
 				group = petitioners_group
-				animation = happiness
+				animation = worry
 			}
 		}
 	}
@@ -450,6 +435,7 @@ rococo_pagan.003 = {# Peasants need firewood and chopped down a sacred grove
 	cooldown = { years = 20 }
 
 	trigger = {
+		religion = { is_in_family = rf_pagan }
 		any_held_title = {
 			tier = tier_county
 			county = {
@@ -548,11 +534,13 @@ rococo_pagan.003 = {# Peasants need firewood and chopped down a sacred grove
 			}
 		}
 		stress_impact = {
- 			base = medium_stress_impact_gain
- 			lazy = medium_stress_impact_gain
- 			arrogant = medium_stress_impact_gain
- 			impatient = medium_stress_impact_gain
- 		}
+			compassionate = minor_stress_gain
+			forgiving = minor_stress_gain
+			zealous = minor_stress_loss
+			just = minor_stress_loss
+			wrathful = minor_stress_loss
+			vengeful = minor_stress_loss
+		}
  		ai_chance = {
 			base = 100
 			ai_value_modifier = {
@@ -589,8 +577,11 @@ rococo_pagan.003 = {# Peasants need firewood and chopped down a sacred grove
 			}
 		}
 		stress_impact = {
-			patient = medium_stress_impact_gain
-			diligent = medium_stress_impact_gain
+			compassionate = medium_stress_impact_loss
+			forgiving = medium_stress_impact_loss
+			zealous = minor_stress_gain
+			wrathful = medium_stress_impact_gain
+			vengeful = medium_stress_impact_gain
 		}
 		ai_chance = {
 			base = 100
@@ -625,7 +616,10 @@ rococo_pagan.003 = {# Peasants need firewood and chopped down a sacred grove
 		}
 		stress_impact = {
 			compassionate = medium_stress_impact_gain
-			just = medium_stress_impact_gain
+			forgiving = medium_stress_impact_gain
+			zealous = minor_stress_loss
+			wrathful = medium_stress_impact_loss
+			vengeful = medium_stress_impact_loss
 		}
 		ai_chance = {
 			base = 100
@@ -708,8 +702,7 @@ rococo_pagan.003 = {# Peasants need firewood and chopped down a sacred grove
 			}
 		}
 		stress_impact = {
- 			compassionate = medium_stress_impact_gain
- 			humble = medium_stress_impact_gain
+ 			just = medium_stress_impact_loss
  		}
 		ai_chance = {
 			base = 100
@@ -739,20 +732,174 @@ rococo_pagan.003 = {# Peasants need firewood and chopped down a sacred grove
 		# Finish up the chain if relevant.
 		hold_court_queue_post_event_effect = yes
 	}
-}
- 
+} 
 #######################################
 #									  #
 #        Norse Pagan Events           #
 #									  #
 #######################################
+rococo_pagan.100 = {# Priest wishes for a horse to Sacrifice to the gods
+	type = court_event
+	title = rococo_pagan.100.t
+	desc = rococo_pagan.100.desc
+	theme = realm
+	lower_center_portrait = cp:councillor_court_chaplain
+	court_scene = {
+		button_position_character = scope:bishop
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:bishop = {
+				group = petitioners_group
+				animation = throne_room_bow_1
+			}
+		}
+	}
 
-# Trial by Flyting
-# Changing the date of Yule(for Catholic rulers)
-# Don't have a lawspeaker, characters come forward to present choices. 
-# Write down the Sagas vs keep them oral
-# Priest wishes for a horse to Sacrifice to the gods
-# EVENT
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	cooldown = { years = 20 }
+
+	trigger = {
+		exists = cp:councillor_court_chaplain
+		faith.religion = religion:germanic_religion
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		# Court weightings.
+		## Since you take peasant administrative concerns seriously...
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		scope:peasant = {
+			court_event_character_flag_effect = yes
+		}
+		if = { # Save Court Chaplain if relevant
+			limit = {
+				exists = cp:councillor_court_chaplain
+				cp:councillor_court_chaplain = {
+					has_court_event_flag = no
+					is_available_ai_adult = yes
+				}
+			}
+			cp:councillor_court_chaplain = {
+				save_scope_as = bishop
+				court_event_character_flag_effect = yes
+			}
+		}
+		if = { # Save Executioner if relevant
+			limit = {
+				employs_court_position = executioner_court_position
+				any_court_position_holder = {
+					type = executioner_court_position
+					has_court_event_flag = no
+					is_available_ai_adult = yes
+				}
+			}
+			random_court_position_holder = {
+				type = executioner_court_position
+				limit = {
+					has_court_event_flag = no
+					is_available_ai_adult = yes
+				}
+				save_scope_as = executioner
+				court_event_character_flag_effect = yes
+			}
+		}
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
+
+	option = {# Give one of your Horses
+		name = rococo_pagan.100.a
+		pay_short_term_gold = {# Reflects paying your horse
+			target = scope:bishop
+			gold = minor_gold_value
+		}
+		scope:bishop = {# Bishop likes this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		stress_impact = {
+ 			zealous = minor_stress_impact_loss
+ 			generous = minor_stress_impact_loss
+			improvident = minor_stress_impact_loss
+			greedy = minor_stress_impact_gain
+ 		}
+ 		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.25
+				ai_energy = 0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = lazy
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = arrogant
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = impatient
+			}
+		}
+	}
+	option = {# Refuse 
+		name = rococo_pagan.100.b
+		scope:bishop = {# Bishop doesn't like this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		stress_impact = {
+ 			zealous = minor_stress_impact_gain
+ 			generous = minor_stress_impact_gain
+			improvident = minor_stress_impact_gain
+			greedy = minor_stress_impact_loss
+ 		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = patient
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = diligent
+			}
+		}
+	}
+
+	after = {
+		scope:bishop = {
+			clear_court_event_participation = yes
+			if = {
+				limit = { is_alive = yes }
+				silent_disappearance_effect = yes
+			}
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
 
 #######################################
 #									  #

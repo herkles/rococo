@@ -19,18 +19,15 @@
 
   # Peasants need firewood and chopped down a sacred grove
     rococo_pagan.003.t:0 "Peasants and the Sacred Grove"
-    rococo_pagan.003.desc:0 "A lowly peasant, summoned in the presence of your royal court by the esteemed [ROOT.Char.GetFaith.PantheonTerm|U] , [bishop.GetTitledFirstName], stands accused of transgression. [bishop.GetSheHe] declares this commoner to be a chieftain of the hamlet, alleging the misdeed of thievery within the consecrated woods. "Noble [root.GetTitle], I am [peasant.GetTitledFirstName]," pleads the rustic soul, "Indeed, we did pilfer, forsooth, but only in pursuit of survival. We harbor no desire for the wrath of the [ROOT.Char.GetFaith.court_chaplains|E] to befall upon our humble abode." [bishop.GetTitledFirstName] turns to you, seeking guidance on the course of action to be taken."
+    rococo_pagan.003.desc:0 "A lowly peasant, summoned in the presence of your royal court by the esteemed [bishop.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], [peasant.GetTitledFirstName], stands accused of transgression. [bishop.GetSheHe] declares this commoner to be a chieftain of the hamlet, alleging the misdeed of thievery within the consecrated woods. "[ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], I am [peasant.GetTitledFirstName]," pleads the rustic soul, "Indeed, we did pilfer, forsooth, but only in pursuit of survival. We harbor no desire for the wrath of the [ROOT.Char.GetFaith.court_chaplains|E] to befall upon our humble abode." [bishop.GetTitledFirstName] turns to you, seeking guidance on the course of action to be taken."
     rococo_pagan.003.a:0 "The More Gods the Better!"
     rococo_pagan.003.b:0 "I can not support it right now."
-
-
-
-
-
-
-
-
-
-
-
+#######################################
+# Norse Pagan Events
+#######################################
+  # Priest wishes for a horse to Sacrifice to the gods
+    rococo_pagan.003.t:0 "Horse Sacrifice"
+    rococo_pagan.003.desc:0 "In the hallowed halls of the court, there enters your esteemed [bishop.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], bearing the aura of a petitioner. [bishop.GetSheHe] has graced the presence of the throne with the purpose of inquiring about the sacred act of offering a horse to the divine entities. "Noble [ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], the sacrifice of equine majesty is poised to invoke the blessings of the gods upon our realm. I am cognizant that the relinquishment of such a noble creature bears a weighty cost, yet the benevolence of the divine is often bestowed upon those who embark on such earnest endeavors." With a demeanor of solemn expectancy, [bishop.GetSheHe] stands in anticipation of your considered response."
+    rococo_pagan.003.a:0 "You may sacrifice one of my horses."
+    rococo_pagan.003.b:0 "You may not sacrifice one of my horses."
 
