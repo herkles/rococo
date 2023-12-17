@@ -98,23 +98,31 @@ hold_court_event_selection = {
 		#######################################
 		# Muslim Court Events
 		500 = rococo_muslim.001 # Appointing a Cheif Qadi
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		# Christian Court Events
+		100 = rococo_christian.500
+		100 = rococo_christian.501
+		100 = rococo_christian.502
+		# Pagan Court Events
+		100 = rococo_pagan.001
+		100 = rococo_pagan.002
+		100 = rococo_pagan.003
+		100 = rococo_pagan.100
+		# Hindu Court Events
+		# Jewish Court Events
+		# Zoroastrian Court Events
+		# Buddhist Court Events
+		# Jain Court Events
+		# British Isles Court Events
+		# Middle East Court Events
+		# Byzantine Court Events
+		# Balkan Court Events
+		# Iberia Court Events
+		# France Court Events
+		# Holy Roman Empire Court Events
+		# Italy Court Events
+		# Maghreb Court Events
+		# Steppe Court Events
+		# Tibet Court Events
+		# Scandinavia Court Events
 	}
 }
