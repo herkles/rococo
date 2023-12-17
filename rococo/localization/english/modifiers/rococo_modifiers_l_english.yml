@@ -13,3 +13,38 @@
 
  rococo_kept_holidays_modifier:0 "Refused to ban holidays"
  rococo_kept_holidays_modifier_desc:1 "This character has rejected a demand to ban holidays by some of their clergy."
+
+
+ rococo_banish_catholics_modifier:0 "Banished Catholics"
+ rococo_banish_catholics_modifier_desc:1 "In this county, the people are up in arms and furious over the banishing of several notable catholics for their faith. "
+
+ rococo_left_catholics_alone_modifier:0 "Left Catholics Alone"
+ rococo_left_catholics_alone_modifier _desc:1 "This character has left catholics alone, earning support from his catholic vassals and ire from his zealous faithful vassals."
+
+ rococo_taxing_catholics_modifier:0 "New Taxes for Catholics"
+ rococo_taxing_catholics_modifier_desc:1 "In this county, new taxes have been imposed upon those that practice catholicism."
+
+ rococo_perscuting_catholics_modifier:0 "Persecuted Catholics"
+ rococo_perscuting_catholics_modifier_desc:1 "In this county Catholics are being persecuted for their beliefs, in turn fueling anger within the populace."
+
+#######################################
+# Pagan modifiers
+#######################################
+ rococo_supported_faith_modifier:0 "Supporting Local Faith"
+ rococo_supported_faith_modifier_desc:1 "The people of this county are happy and content with recent actions to support their religious tradition."
+
+ rococo_grove_pardoned_modifier:0 "Pardoned for transgression"
+ rococo_grove_pardoned_modifier_desc:1 "This county was pardoned by their king for their action of stealing from a sacred grove, calming the peasants that they transgressed against the gods."
+
+ rococo_grove_executed_modifier:0 "Executed Peasants"
+ rococo_grove_executed_modifier_desc:1 "This county's peasants were executed for stealing from a sacred grove, enraging and frightening the peasants that they have transgressed against the gods.."
+
+ rococo_pagan_grove_compromise_modifier:0 "Compromised on Sacred Grove"
+ rococo_pagan_grove_compromise_modifier_desc:1 "A ritual has taken place in this county to keep the gods happy. The ring leaders of the theft have been punished but the area is receiving support to ensure that it can't happen again."
+
+ rococo_grove_punished_modifier:0 "Punished Peasants"
+ rococo_grove_punished_modifier_desc:1 "The people of this county have been punished for stealing from a sacred grove."
+
+
+
+

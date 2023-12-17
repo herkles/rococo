@@ -10,13 +10,31 @@
     rococo_christian.500.b:0 "try to find a compromise"
     rococo_christian.500.c.tt_success:0 "You convince [wants_simple_vassal.GetTitledFirstName]"
     rococo_christian.500.c.tt_failure:0 "You fail to convince [wants_simple_vassal.GetTitledFirstName]"
+  # Holiday Debate
+    rococo_christian.501.t:0 "Holidays Debate"
+    rococo_christian.501.desc:0 "Two highly devoted priests in your realm have come before to settle a theological dispute that has emerged what to do about Holidays. [anti_holidays_priest.GetTitledFirstName] states that holidays like Christmas aren't in the holy Bible and should be banned to focus on the will of the Lord, while [pro.GetTitledFirstName] supports the holidays, that they are fun and important for the peasants to learn about Jesus. Both priests look to you to solve the deadlock. "
+    rococo_christian.501.a:0 "Ban the Holidays"
+    rococo_christian.501.b:0 "Keep the Holidays"
+    rococo_christian.501.b:0 "try to find a compromise"
+    rococo_christian.501.c.tt_success:0 "You convince [anti_holidays_priest.GetTitledFirstName]"
+    rococo_christian.501.c.tt_failure:0 "You fail to convince [anti_holidays_priest.GetTitledFirstName]
+  # Fate of Catholics
+    rococo_christian.502.t:0 "Fate of Catholics"
+    rococo_christian.502.desc:0 "[zealous_vassal.GetTitledFirstName], One of your more zealous vassals has approached you demanding to know what you plan to do about the Catholics. They remind you that the [ROOT.Char.GetFaith.GetNameNoTooltip] broke away from the corrupt whore of Babylon in Rome. At this comment, [catholic_vassal.GetTitledFirstName] chimes up that going after your catholic vassals would be going against the oaths they swore to you and your oaths to protect them. \n\nThey both look at you, awaiting your judgement."
+    rococo_christian.502.a:0 "Banish Catholics from your Court"
+    rococo_christian.502.b:0 "Leave them alone."
+    rococo_christian.502.c:0 "Levy a new Tax on them."
+    rococo_christian.502.d:0 "Persecute Them"
 
-    rococo_christian.500.t:0 "Holidays Debate"
-    rococo_christian.500.desc:0 "Two highly devoted priests in your realm have come before to settle a theological dispute that has emerged what to do about Holidays. [anti_holidays_priest.GetTitledFirstName] states that holidays like Christmas aren't in the holy Bible and should be banned to focus on the will of the Lord, while [pro.GetTitledFirstName] supports the holidays, that they are fun and important for the peasants to learn about Jesus. Both priests look to you to solve the deadlock. "
-    rococo_christian.500.a:0 "Ban the Holidays"
-    rococo_christian.500.b:0 "Keep the Holidays"
-    rococo_christian.500.b:0 "try to find a compromise"
-    rococo_christian.500.c.tt_success:0 "You convince [anti_holidays_priest.GetTitledFirstName]"
-    rococo_christian.500.c.tt_failure:0 "You fail to convince [anti_holidays_priest.GetTitledFirstName]
+
+
+
+
+
+
+
+
+
+
 
 

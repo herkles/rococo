@@ -16,7 +16,6 @@ rococo_simple_compromise_modifier = {
 	monthly_piety_gain_mult = 0.05
 	theocracy_government_opinion_same_faith = 05
 }
-
 rococo_county_banned_holidays_modifier = {	
 	icon = county_modifier_control_positive
 	county_opinion_add = -15
@@ -28,8 +27,55 @@ rococo_kept_holidays_modifier = {
 	monthly_piety_gain_mult = -0.2
 	religious_vassal_opinion = -10
 }
-
-
-
+rococo_banish_catholics_modifier = {	
+	icon = county_modifier_control_positive
+	county_opinion_add = -20
+	monthly_county_control_change_factor = -0.1
+}
+rococo_left_catholics_alone_modifier = {
+	icon = piety_negative
+	different_faith_opinion = 15
+	same_faith_opinion = -5
+	monthly_piety_gain_mult = -0.1
+}
+rococo_taxing_catholics_modifier = {	
+	icon = county_modifier_control_positive
+	county_opinion_add = -15
+	tax_mult = 0.1
+}
+rococo_perscuting_catholics_modifier = {	
+	icon = county_modifier_control_positive
+	county_opinion_add = -50
+	monthly_county_control_change_factor = -0.3
+}
+#######################################
+#									  #
+#      	   Pagan Modifiers	          #
+#									  #
+#######################################
+rococo_supported_faith_modifier = {	
+	icon = county_modifier_control_positive
+	county_opinion_add = 15
+	monthly_county_control_change_factor = 0.1
+}
+rococo_grove_pardoned_modifier = {
+	icon = county_modifier_control_positive
+	county_opinion_add = 10
+	monthly_county_control_change_factor = 0.1
+}
+rococo_grove_executed_modifier = {
+	icon = county_modifier_opinion_negative
+	county_opinion_add = -20
+	development_growth_factor = tiny_development_growth_loss
+}
+rococo_pagan_grove_compromise_modifier = {
+	icon = county_modifier_development_positive
+	county_opinion_add = 10
+	development_growth_factor = tiny_development_growth_gain
+}
+rococo_grove_punished_modifier = {
+	icon = county_modifier_opinion_negative
+	county_opinion_add = -10
+}
 
 

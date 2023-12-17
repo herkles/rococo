@@ -1,0 +1,36 @@
+﻿l_english:
+#######################################
+# General Pagan Events
+#######################################
+  # argument over who gets to sacrifice the animals
+    rococo_pagan.001.t:0 "Vassals argue over sacrafice"
+    rococo_pagan.001.desc:0 "Two of your vassals have come to you. Both, [powerful_vassal_one.GetTitledFirstName]  and [powerful_vassal_two.GetTitledFirstName] , believe that they and not the other should be the ones to offer to the [ROOT.Char.GetFaith.PantheonTerm|U]. The two glare at each other, both accusing the other of trying to dishonor the other."
+    rococo_pagan.001.a:0 "Favor [powerful_vassal_one.GetTitledFirstName]"
+    rococo_pagan.001.b:0 "Favor [powerful_vassal_two.GetTitledFirstName]"
+    rococo_pagan.001.c:0 "try to find a compromise"
+    rococo_pagan.001.c.tt_success:0 "You convince [wants_simple_vassal.GetTitledFirstName]"
+    rococo_pagan.001.c.tt_failure:0 "You fail to convince [wants_simple_vassal.GetTitledFirstName]" 
+
+  # Honoring other pagan faiths gods
+    rococo_pagan.002.t:0 "Honor foreign Gods?"
+    rococo_pagan.002.desc:0 "[other_pagan_vassal.GetTitledFirstName], one of your vassals doesn't worship the same gods and goddesses as you do. [other_pagan_vassal.GetSheHe] has entered your court, and asks if you would be willing to support [other_pagan_vassal.GetHerHis] offerings to [other_pagan_vassal.GetHerHis] gods, Perhaps even join in. Some of your more zealous vassals though do not like the notion."
+    rococo_pagan.002.a:0 "The More Gods the Better!"
+    rococo_pagan.002.b:0 "I can not support it right now."
+
+  # Peasants need firewood and chopped down a sacred grove
+    rococo_pagan.003.t:0 "Peasants and the Sacred Grove"
+    rococo_pagan.003.desc:0 "A lowly peasant, summoned in the presence of your royal court by the esteemed [ROOT.Char.GetFaith.PantheonTerm|U] , [bishop.GetTitledFirstName], stands accused of transgression. [bishop.GetSheHe] declares this commoner to be a chieftain of the hamlet, alleging the misdeed of thievery within the consecrated woods. "Noble [root.GetTitle], I am [peasant.GetTitledFirstName]," pleads the rustic soul, "Indeed, we did pilfer, forsooth, but only in pursuit of survival. We harbor no desire for the wrath of the [ROOT.Char.GetFaith.court_chaplains|E] to befall upon our humble abode." [bishop.GetTitledFirstName] turns to you, seeking guidance on the course of action to be taken."
+    rococo_pagan.003.a:0 "The More Gods the Better!"
+    rococo_pagan.003.b:0 "I can not support it right now."
+
+
+
+
+
+
+
+
+
+
+
+

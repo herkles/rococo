@@ -1,35 +1,779 @@
 ﻿namespace = rococo_pagan
 
-##################################################
-# Chief Qadi getting Picked
-##################################################
+#######################################
+#									  #
+#        General Pagan Events         #
+#									  #
+#######################################
+rococo_pagan.001 = {# argument over who gets to sacrifice the animals
+	type = court_event
+	title = rococo_pagan.001.t 
+	desc = rococo_pagan.001.desc
+	theme = martial_authority_focus
+	court_scene = {
+		button_position_character = scope:powerful_vassal_one
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:powerful_vassal_one = {
+				group = petitioners_group
+				animation = worry
+			}
+			scope:powerful_vassal_two = {
+				group = petitioners_group
+				animation = rage
+			}
+		}
+	}
 
-##################################################
-# Sharia Law Events
-##################################################
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+	
+	trigger = {
+		religion = { is_in_family = rf_pagan }
+		NOT = { has_character_flag = rococo_pagan_offering_vassals }
+		any_vassal = {
+			is_ai = yes
+			has_court_event_flag = no
+			religion = { is_in_family = rf_pagan }
+			is_powerful_vassal = yes
+			save_temporary_scope_as = same_vassal_check
+		}
+		any_vassal = {
+			is_ai = yes
+			has_court_event_flag = no
+			religion = { is_in_family = rf_pagan }
+			is_powerful_vassal = yes
+			NOT = { this = scope:same_vassal_check }
+		}
+	}
 
-##################################################
-# Chief Qadi Events
-##################################################
+	weight_multiplier = {
+		base = 1
 
-##################################################
-# Chief Qadi Events
-##################################################
+		# Court weightings.
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_scholarly }
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
 
-##################################################
-# Chief Qadi Events
-##################################################
+	immediate = {
+		add_character_flag = {
+			flag = rococo_pagan_offering_vassals
+			days = 1825
+		}
+		random_vassal = {# the Vassal that prefers Simple living
+			limit = {
+				is_ai = yes
+				has_court_event_flag = no
+				is_powerful_vassal = yes
+				religion = { is_in_family = rf_pagan }
+			}
+			save_scope_as = powerful_vassal_one
+			court_event_character_flag_effect = yes
+		}
+		random_vassal = {
+			limit = {
+				is_ai = yes
+				has_court_event_flag = no
+				is_powerful_vassal = yes
+				religion = { is_in_family = rf_pagan }
+				NOT = { this = scope:powerful_vassal_one }
+			}
+			save_scope_as = powerful_vassal_two
+			court_event_character_flag_effect = yes
+		}
+		random_list = {
+			70 = {
+				scope:powerful_vassal_one = {
+					if = {
+						limit = {
+							NOT = { has_relation_rival = scope:powerful_vassal_two }
+						}
+						set_relation_rival = {
+							target = scope:powerful_vassal_two
+							reason = rivaly_offering_disagreement
+						}
+					}
+				}
+			}
+			30 = {} # it doesn't evolve into a rivalry
+		}
+		# Trigger next event in chain.
+		hold_court_queue_post_event_effect = yes
+	}
 
-##################################################
-# Chief Qadi Events
-##################################################
+	option = {# Favor Vassal One
+		name = rococo_pagan.001.a
+		scope:powerful_vassal_one = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+		scope:powerful_vassal_two = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = -20
+			}
+		}
+		stress_impact = {
+			reckless = minor_stress_gain
+			wrathful = minor_stress_gain
+			paranoid = minor_stress_gain
+			sadistic = minor_stress_gain
+			lifestyle_blademaster = major_stress_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = -0.25
+				ai_compassion = 0.25
+			}
+		}
+	}
+	option = {# Favor Vassal Two
+		name = rococo_pagan.001.b
+		scope:powerful_vassal_one = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+		scope:powerful_vassal_two = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = -20
+			}
+		}
+		stress_impact = {
+			reckless = minor_stress_gain
+			wrathful = minor_stress_gain
+			paranoid = minor_stress_gain
+			sadistic = minor_stress_gain
+			lifestyle_blademaster = major_stress_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = -0.25
+				ai_compassion = 0.25
+			}
+		}
+	}
+	option = {# Try and Find a Compromise
+		name = rococo_pagan.001.c
+		duel = {
+			skill = diplomacy
+			target = scope:powerful_vassal_one
+			8 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 2
+				}
+				desc = rococo_pagan.001.c.tt_success
+				send_interface_toast = {
+					title = rococo_pagan.001.c.tt_success
+					left_icon = scope:powerful_vassal_one
+					scope:powerful_vassal_one = {
+						add_opinion = {
+							modifier = pleased_opinion
+							target = root
+							opinion = 10
+						}
+					}
+					scope:powerful_vassal_two = {
+						add_opinion = {
+							modifier = pleased_opinion
+							target = root
+							opinion = 10
+						}
+					}
+				}
+			}
+			8 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = rococo_pagan.500.c.tt_failure
+				send_interface_toast = {
+					title = rococo_pagan.500.c.tt_failure
+					left_icon = scope:wants_simple_vassal
+					add_prestige = minor_prestige_loss
+					scope:powerful_vassal_one = {
+						add_opinion = {
+							modifier = disappointed_opinion
+							target = root
+							opinion = -10
+						}
+					}
+					scope:powerful_vassal_two = {
+						add_opinion = {
+							modifier = disappointed_opinion
+							target = root
+							opinion = -10
+						}
+					}					
+				}
+			}
+		}
+		stress_impact = {
+			arbitrary = major_stress_loss
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_greed = 1
+				ai_rationality = 0.5
+			}
+		}
+	}
 
-##################################################
-# Chief Qadi Events
-##################################################
+	after = {
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+		scope:powerful_vassal_one = {
+			clear_court_event_participation = yes
+		}
+		scope:powerful_vassal_two = {
+			clear_court_event_participation = yes
+		}
+	}
+}
+rococo_pagan.002 = {# Honoring other pagan faiths gods
+	type = court_event
+	title = rococo_pagan.001.t 
+	desc = rococo_pagan.001.desc
+	theme = martial_authority_focus
+	court_scene = {
+		button_position_character = scope:powerful_vassal_one
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:other_pagan_vassal = {
+				group = petitioners_group
+				animation = worry
+			}
+		}
+	}
 
-##################################################
-# Chief Qadi Events
-##################################################
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = rococo_pagan_syncretic_worship }
+		religion = { is_in_family = rf_pagan }
+		any_vassal = {
+			is_ai = yes
+			has_court_event_flag = no
+			AND = {# Has to be a vassal that is both pagan and not your pagan faith
+				religion = { is_in_family = rf_pagan }
+				NOT = { faith = root.faith} 
+			}
+			save_temporary_scope_as = same_vassal_check
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		# Court weightings.
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_scholarly }
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = rococo_pagan_syncretic_worship
+			days = 1825
+		}
+		random_vassal = {# the Vassal that prefers Simple living
+			limit = {
+				is_ai = yes
+				has_court_event_flag = no
+				AND = {# Has to be a vassal that is both pagan and not your pagan faith
+					religion = { is_in_family = rf_pagan }
+					NOT = { faith = root.faith} 
+				}
+				religion = { is_in_family = rf_pagan }
+			}
+			save_scope_as = other_pagan_vassal
+			court_event_character_flag_effect = yes
+		}
+
+		# Trigger next event in chain.
+		hold_court_queue_post_event_effect = yes
+	}
+
+	option = {# The More Gods the Merrier
+		name = rococo_pagan.001.a
+		scope:other_pagan_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+		scope:other_pagan_vassal = {# The lands that follow his faith are happy.  
+			every_held_county = {
+				limit = { faith = root.faith }
+				custom = custom.every_held_county
+				add_county_modifier = {
+					modifier = rococo_supported_faith_modifier
+					years = 15
+				}
+			}
+		}
+		every_courtier = {# Other Pagan Courtiers like this
+			limit = { 
+				AND = {# Has to be a vassal that is both pagan and not your pagan faith
+					religion = { is_in_family = rf_pagan }
+					NOT = { faith = root.faith} 
+				}
+			}
+			add_opinion = {
+				target = root
+				modifier = kindness_opinion
+				opinion = 5
+			}
+		}
+		every_vassal = {# Zealot Vassals don't like this
+			custom = every_zealot_vassal
+			limit = {
+				faith = root.faith
+				has_vassal_stance = zealot 
+			}
+			add_opinion = {
+				target = root
+				modifier = approving_opinion
+			}
+		}
+		stress_impact = {
+			reckless = minor_stress_gain
+			wrathful = minor_stress_gain
+			paranoid = minor_stress_gain
+			sadistic = minor_stress_gain
+			lifestyle_blademaster = major_stress_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = -0.25
+				ai_compassion = 0.25
+			}
+		}
+	}
+	option = {# Decline 
+		name = rococo_pagan.001.b
+		scope:other_pagan_vassal = {# understands but is sad
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+		every_vassal = {# Zealot Vassals like this
+			custom = every_zealot_vassal
+			limit = {
+				faith = root.faith
+				has_vassal_stance = zealot 
+			}
+			add_opinion = {
+				target = root
+				modifier = approving_opinion
+			}
+		}		
+		stress_impact = {
+			reckless = minor_stress_gain
+			wrathful = minor_stress_gain
+			paranoid = minor_stress_gain
+			sadistic = minor_stress_gain
+			lifestyle_blademaster = major_stress_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = -0.25
+				ai_compassion = 0.25
+			}
+		}
+	}
+
+	after = {
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+		scope:powerful_vassal_one = {
+			clear_court_event_participation = yes
+		}
+		scope:powerful_vassal_two = {
+			clear_court_event_participation = yes
+		}
+	}
+}
+rococo_pagan.003 = {# Peasants need firewood and chopped down a sacred grove
+	type = court_event
+	title = rococo_pagan.003.t
+	desc = rococo_pagan.003.desc
+	theme = realm
+	lower_center_portrait = cp:councillor_court_chaplain
+	court_scene = {
+		button_position_character = scope:peasant
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:peasant = {
+				group = petitioners_group
+				animation = happiness
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	cooldown = { years = 20 }
+
+	trigger = {
+		any_held_title = {
+			tier = tier_county
+			county = {
+				faith = root.faith
+				any_county_province = { has_holding = yes }
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		# Court weightings.
+		## Since you take peasant administrative concerns seriously...
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		random_held_title = { # Find a place for loc
+			limit = {
+				tier = tier_county
+				county = {
+					faith = root.faith
+					any_province = { has_holding = yes }
+				}
+			}
+			random_county_province = {
+				limit = { has_holding = yes }
+				save_scope_as = peasant_holding
+			}
+		}
+		hidden_effect = { # Create peasants
+			create_character = {
+				template = servant_character
+				dynasty = none
+				location = root.capital_province
+				gender_female_chance = root_soldier_female_chance
+				trait = beauty_bad_2
+				save_scope_as = peasant
+			}
+			dummy_female = { save_scope_as = dummy_female }
+			dummy_male = { save_scope_as = dummy_male }
+		}
+		scope:peasant = {
+			court_event_character_flag_effect = yes
+		}
+		if = { # Save Court Chaplain if relevant
+			limit = {
+				exists = cp:councillor_court_chaplain
+				cp:councillor_court_chaplain = {
+					has_court_event_flag = no
+					is_available_ai_adult = yes
+				}
+			}
+			cp:councillor_court_chaplain = {
+				save_scope_as = bishop
+				court_event_character_flag_effect = yes
+			}
+		}
+		if = { # Save Executioner if relevant
+			limit = {
+				employs_court_position = executioner_court_position
+				any_court_position_holder = {
+					type = executioner_court_position
+					has_court_event_flag = no
+					is_available_ai_adult = yes
+				}
+			}
+			random_court_position_holder = {
+				type = executioner_court_position
+				limit = {
+					has_court_event_flag = no
+					is_available_ai_adult = yes
+				}
+				save_scope_as = executioner
+				court_event_character_flag_effect = yes
+			}
+		}
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
+
+	option = {# Punish them(but don't kill them)
+		name = rococo_pagan.003.a
+		scope:bishop = {# Bishop likes this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		scope:peasant_holding.county = {# county doesn't like being punished
+			add_county_modifier = {
+				modifier = rococo_grove_punished_modifier
+				years = 10
+			}
+		}
+		stress_impact = {
+ 			base = medium_stress_impact_gain
+ 			lazy = medium_stress_impact_gain
+ 			arrogant = medium_stress_impact_gain
+ 			impatient = medium_stress_impact_gain
+ 		}
+ 		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.25
+				ai_energy = 0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = lazy
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = arrogant
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = impatient
+			}
+		}
+	}
+	option = {# Pardon them. 
+		name = rococo_pagan.003.b
+		scope:bishop = {
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		scope:peasant_holding.county = {
+			add_county_modifier = {
+				modifier = rococo_grove_pardoned_modifier
+				years = 10
+			}
+		}
+		stress_impact = {
+			patient = medium_stress_impact_gain
+			diligent = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = patient
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = diligent
+			}
+		}
+	}
+	option = {# Execute them for their transgression
+		name = rococo_pagan.003.c
+		trigger = { exists = scope:executioner }
+		add_dread = miniscule_dread_gain
+		scope:peasant = {
+			death = {
+				killer = scope:executioner
+				death_reason = death_execution
+			}
+		}
+		scope:peasant_holding.county = {
+			add_county_modifier = {
+				modifier = rococo_grove_executed_modifier
+				years = 10
+			}
+		}
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+			just = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = -0.5
+				ai_compassion = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = compassionate
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = just
+			}
+		}
+	}
+	option = {# Try to find a compromise with your chaplain.
+		name = rococo_pagan.003.d
+		duel = {
+			skill = learning
+			target = scope:bishop
+			8 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 2
+				}
+				desc = rococo_christian.501.c.tt_success
+				send_interface_toast = {
+					title = rococo_christian.501.c.tt_success
+					left_icon = scope:bishop
+					scope:bishop = {
+						add_opinion = {
+							modifier = pleased_opinion
+							target = root
+							opinion = 10
+						}
+					}
+					scope:peasant = {
+						add_opinion = {
+							modifier = pleased_opinion
+							target = root
+							opinion = 10
+						}
+					}
+					remove_short_term_gold = minor_gold_value_check
+					scope:peasant_holding.county = {
+						add_county_modifier = {
+							modifier = rococo_pagan_grove_compromise_modifier
+							years = 10
+						}
+					}
+				}
+			}
+			8 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = rococo_christian.501.c.tt_failure
+				send_interface_toast = {
+					title = rococo_christian.501.c.tt_failure
+					left_icon = scope:bishop
+					add_prestige = minor_prestige_loss
+					scope:bishop = {
+						add_opinion = {
+							modifier = disappointed_opinion
+							target = root
+							opinion = -10
+						}
+					}
+					scope:peasant = {
+						add_opinion = {
+							modifier = disappointed_opinion
+							target = root
+							opinion = -10
+						}
+					}					
+				}
+			}
+		}
+		stress_impact = {
+ 			compassionate = medium_stress_impact_gain
+ 			humble = medium_stress_impact_gain
+ 		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = 0.5
+				ai_compassion = 0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = compassionate
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = humble
+			}
+		}
+	}
+
+	after = {
+		scope:peasant = {
+			clear_court_event_participation = yes
+			if = {
+				limit = { is_alive = yes }
+				silent_disappearance_effect = yes
+			}
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
+ 
+#######################################
+#									  #
+#        Norse Pagan Events           #
+#									  #
+#######################################
+
+# Trial by Flyting
+# Changing the date of Yule(for Catholic rulers)
+# Don't have a lawspeaker, characters come forward to present choices. 
+# Write down the Sagas vs keep them oral
+# Priest wishes for a horse to Sacrifice to the gods
+# EVENT
+
+#######################################
+#									  #
+#         Siberian Pagan Events       #
+#									  #
+#######################################
+
+# Reindeer Herd ownership
+# Dangerous Bear or Sacred Bear
+
+#######################################
+#									  #
+#         Slavic Pagan Events         #
+#									  #
+#######################################
+
+# EVENT
+# EVENT
+# EVENT
+# EVENT
+# EVENT
+# EVENT
 
 

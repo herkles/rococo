@@ -67,7 +67,6 @@ scripted_trigger rococo_is_proto_protestant = {
 	}
 }
 
-
 rococo_christian.500 = {# Arts and Crafts vs Simple Living
 	type = court_event
 	title = rococo_christian.500.t 
@@ -353,9 +352,9 @@ rococo_christian.500 = {# Arts and Crafts vs Simple Living
 					value = scope:duel_value
 					multiplier = -1
 				}
-				desc = hold_court.500.c.tt_failure
+				desc = rococo_christian.500.c.tt_failure
 				send_interface_toast = {
-					title = hold_court.500.c.tt_failure
+					title = rococo_christian.500.c.tt_failure
 					left_icon = scope:wants_simple_vassal
 					add_prestige = minor_prestige_loss
 					scope:wants_simple_vassal = {
@@ -390,10 +389,10 @@ rococo_christian.500 = {# Arts and Crafts vs Simple Living
 	after = {
 		# Finish up the chain if relevant.
 		hold_court_queue_post_event_effect = yes
-		scope:wants_weapons_vassal = {
+		scope:wants_simple_vassal = {
 			clear_court_event_participation = yes
 		}
-		scope:wants_safety_vassal = {
+		scope:wants_art_vassal = {
 			clear_court_event_participation = yes
 		}
 	}
@@ -676,9 +675,9 @@ rococo_christian.501 = {# Priests debate the nature of holidays
 					value = scope:duel_value
 					multiplier = -1
 				}
-				desc = hold_court.501.c.tt_failure
+				desc = rococo_christian.501.c.tt_failure
 				send_interface_toast = {
-					title = hold_court.501.c.tt_failure
+					title = rococo_christian.501.c.tt_failure
 					left_icon = scope:anti_holidays_priest
 					add_prestige = minor_prestige_loss
 					scope:anti_holidays_priest = {
@@ -713,18 +712,331 @@ rococo_christian.501 = {# Priests debate the nature of holidays
 	after = {
 		# Finish up the chain if relevant.
 		hold_court_queue_post_event_effect = yes
-		scope:wants_weapons_vassal = {
+		scope:anti_holidays_priest = {
 			clear_court_event_participation = yes
 		}
-		scope:wants_safety_vassal = {
+		scope:pro_holidays_priest = {
 			clear_court_event_participation = yes
 		}
 	}
 } 
-# debate on statues and artwork 
-# How to deal with Catholics?
-# preacher's publish tracts criticizing the Catholic Church
+rococo_christian.502 = {# # How to deal with Catholics?
+	type = court_event
+	title = rococo_christian.502.t 
+	desc = rococo_christian.502.desc
+	theme = martial_authority_focus
+	court_scene = {
+		button_position_character = scope:wants_simple_vassal
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:zealous_vassal = {
+				group = petitioners_group
+				animation = worry
+			}
+			scope:catholic_vassal = {
+				group = petitioners_group
+				animation = rage
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = has_had_catholic_fate }
+		rococo_is_proto_protestant = yes
+		any_vassal = {# Zealous Protestant Vassal
+			is_ai = yes
+			has_court_event_flag = no
+			rococo_is_proto_protestant = yes
+			OR = {
+				has_trait = zealous
+				has_vassal_stance = zealot
+			}
+			save_temporary_scope_as = same_vassal_check
+		}
+		any_vassal = {# Catholic Vassal
+			is_ai = yes
+			has_court_event_flag = no
+			faith = faith:catholic
+			NOT = { this = scope:same_vassal_check }
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		# Court weightings.
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_scholarly }
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = has_had_catholic_fate
+			days = 1825
+		}
+		random_vassal = {# the Vassal that prefers Simple living
+			weight = {
+				base = 1
+				modifier = {
+					factor = 5
+					is_powerful_vassal = yes
+				}
+				modifier = {
+					factor = 20
+					has_trait = zealous
+				}
+				modifier = {
+					is_knight_of = root
+					factor = 10
+				}
+			}
+			limit = {
+				is_ai = yes
+				has_court_event_flag = no
+				rococo_is_proto_protestant = yes
+				OR = {
+					has_trait = zealous
+					has_vassal_stance = zealot
+				}
+			}
+			save_scope_as = zealous_vassal
+			court_event_character_flag_effect = yes
+		}
+		random_vassal = {
+			weight = {
+				base = 1
+				modifier = {
+					factor = 5
+					is_powerful_vassal = yes
+				}
+				modifier = {
+					is_knight_of = root
+					factor = 10
+				}
+			}
+			limit = {
+				is_ai = yes
+				has_court_event_flag = no
+				faith = faith:catholic
+				NOT = { this = scope:wants_simple_vassal }
+			}
+			save_scope_as = catholic_vassal
+			court_event_character_flag_effect = yes
+		}
+		scope:zealous_vassal = {
+			if = {
+				limit = {
+					NOT = { has_relation_rival = scope:catholic_vassal }
+				}
+				set_relation_rival = {
+					target = scope:catholic_vassal
+					reason = rivaly_catholic_disagreement
+				}
+			}
+		}
+		# Trigger next event in chain.
+		hold_court_queue_post_event_effect = yes
+	}
+
+	option = {# Banish Catholics
+		name = rococo_christian.502.a
+		every_courtier = {
+			limit = { faith = faith:catholic }
+			banish = yes
+			add_opinion = {
+				target = root
+				modifier = hate_opinion
+				opinion = -75
+			}
+		}
+		every_realm_county = {
+			limit = { faith = faith:catholic }
+			add_county_modifier = {
+				modifier = rococo_banish_catholics_modifier
+				years = 15
+			}
+		}
+		scope:zealous_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+		scope:catholic_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = -20
+			}
+		}
+		stress_impact = {
+			reckless = minor_stress_gain
+			wrathful = minor_stress_gain
+			paranoid = minor_stress_gain
+			sadistic = minor_stress_gain
+			lifestyle_blademaster = major_stress_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = -0.25
+				ai_compassion = 0.25
+			}
+		}
+	}
+	option = {# Leave them Be
+		name = rococo_christian.502.b
+		add_character_modifier = {
+			modifier = rococo_left_catholics_alone_modifier
+			years = 5
+		}
+		scope:zealous_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+		scope:catholic_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = -20
+			}
+		}
+		stress_impact = {
+			craven = minor_stress_gain
+			just = minor_stress_gain
+			calm = minor_stress_gain
+			trusting = minor_stress_gain
+			compassionate = minor_stress_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = 0.25
+				ai_compassion = -0.25
+			}
+		}
+	}
+	option = {# Tax them
+		name = rococo_christian.502.c
+		every_realm_county = {
+			limit = { faith = faith:catholic }
+			add_county_modifier = {
+				modifier = rococo_taxing_catholics_modifier
+				years = 15
+			}
+		}
+		scope:zealous_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+		scope:catholic_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = -20
+			}
+		}
+		stress_impact = {
+			reckless = minor_stress_gain
+			wrathful = minor_stress_gain
+			paranoid = minor_stress_gain
+			sadistic = minor_stress_gain
+			lifestyle_blademaster = major_stress_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = -0.25
+				ai_compassion = 0.25
+			}
+		}
+	}	
+	option = {# Persucate Catholics
+		name = rococo_christian.502.d
+		rightfully_imprison_character_effect = {# Imprison the Vassal for being a Catholic
+			TARGET = scope:zealous_vassal
+			IMPRISONER = root
+		}
+		# Every Catholic Courtier and Vassal will hate you. 
+		every_vassal = {# Catholics hate you
+			limit = { faith = faith:catholic }
+			add_opinion = {
+				target = root
+				modifier = hate_opinion
+				opinion = -75
+			}
+		}
+		every_courtier = {# Catholics hate you
+			limit = { faith = faith:catholic }
+			add_opinion = {
+				target = root
+				modifier = hate_opinion
+				opinion = -75
+			}
+		}
+		every_realm_county = {
+			limit = { faith = faith:catholic }
+			add_county_modifier = {
+				modifier = rococo_perscuting_catholics_modifier
+				years = 15
+			}
+		}
+		scope:zealous_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+		}
+		scope:catholic_vassal = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = -20
+			}
+		}
+		stress_impact = {
+			reckless = minor_stress_gain
+			wrathful = minor_stress_gain
+			paranoid = minor_stress_gain
+			sadistic = minor_stress_gain
+			lifestyle_blademaster = major_stress_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = -0.25
+				ai_compassion = 0.25
+			}
+		}
+	}
+
+	after = {
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+		scope:zealous_vassal = {
+			clear_court_event_participation = yes
+		}
+		scope:catholic_vassal = {
+			clear_court_event_participation = yes
+		}
+	}
+}
 # Debate over the nature of Confession
-# Transubstantiation debate
 # Exorcisms and Hallowings, be they Necromancy or Blessings
 # What to do about monasteries?
