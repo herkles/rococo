@@ -77,5 +77,18 @@ rococo_grove_punished_modifier = {
 	icon = county_modifier_opinion_negative
 	county_opinion_add = -10
 }
-
-
+#######################################
+#									  #
+#      	   Hindu Modifiers	          #
+#									  #
+#######################################
+rococo_cow_peasant_modifier = {
+	icon = county_modifier_opinion_negative
+	county_opinion_add = 10
+	tax_mult = 0.05
+}
+rococo_cow_temple_modifier = {
+	icon = county_modifier_opinion_negative
+	county_opinion_add = -10
+	tax_mult = -0.05
+}

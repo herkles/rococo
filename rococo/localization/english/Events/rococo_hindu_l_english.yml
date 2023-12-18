@@ -1,0 +1,31 @@
+﻿l_english:
+#######################################
+# General Hindu Events
+#######################################
+  # Local priest leader wants donations
+    rococo_hindu.001.t:0 "Local Temple leader wants donations"
+    rococo_hindu.001.desc:0 "One of your vassals, [priest.GetTitledFirstName], has entered your court room and kneels before you and states, "My [ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], I humbly beseech you to donate to my temple. You will surely benefit from the blessings that such good deeds bring." [priest.GetSheHe] looks to you awaiting your response."
+    rococo_hindu.001.a:0 "Gladly, I shall donate to your Temple."
+    rococo_hindu.001.b:0 "Unfortunatly, I can not donate to your temple at this time."
+  # Cow dispute: Priests and peasants fight over cows and oxens
+    rococo_hindu.002.t:0 "Priests and peasants fight over cows and oxens"
+    rococo_hindu.002.desc:0 "A local village leader, [priest.GetTitledFirstName], has entered your court, kneeling before you, [priest.GetSheHe] states "My [ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], I come before you. One of the local temples wants to claim our oxen and cows for themselves. Yet, they are needed for us, to plough our lands, to farm, to give you taxes." Your [bishop.GetCouncilTitle] speaks up saying, "Those cattle rightfully belong to the temple of that province, so that they can support their community." Both look to you and await your response."
+    rococo_hindu.002.a:0 "The Cattle belong to the temple"
+    rococo_hindu.002.b:0 "The Cattle belong to the peasants"
+    rococo_hindu.002.c:0 "Try to find a compromise."
+    rococo_hindu.002.c.tt_success:0 "You convince [wants_simple_vassal.GetTitledFirstName]"
+    rococo_hindu.002.c.tt_failure:0 "You fail to convince [wants_simple_vassal.GetTitledFirstName]"
+
+
+
+
+
+
+
+
+
+
+
+
+
+

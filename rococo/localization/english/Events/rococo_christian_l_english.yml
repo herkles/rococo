@@ -7,7 +7,7 @@
     rococo_christian.500.desc:0 "One of your more zealous vassals, [wants_simple_vassal.GetTitledFirstName] has come to your court wanting you to live a more ascetic and simple life. Where you and your court focus more on apostolic poverty like Jesus did. However not all vassals want to support such an ascetic lifestyle throughout your lands, in particular, [wants_art_vassal.GetTitledFirstName] is against the idea. They look to you to see how you shall act."
     rococo_christian.500.a:0 "Simple Living"
     rococo_christian.500.b:0 "Favor the arts"
-    rococo_christian.500.b:0 "try to find a compromise"
+    rococo_christian.500.c:0 "try to find a compromise"
     rococo_christian.500.c.tt_success:0 "You convince [wants_simple_vassal.GetTitledFirstName]"
     rococo_christian.500.c.tt_failure:0 "You fail to convince [wants_simple_vassal.GetTitledFirstName]"
   # Holiday Debate

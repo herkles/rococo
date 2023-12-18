@@ -22,6 +22,12 @@ scripted_trigger rococo_is_catholic = {
 }
 # Two Bishops clash over land
 # Two bishoprics clash over who should have a local saint's relics.
+# EVENT
+# EVENT
+# EVENT
+# EVENT
+# EVENT
+# EVENT
 
 #######################################
 #									  #

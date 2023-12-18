@@ -44,7 +44,13 @@
 
  rococo_grove_punished_modifier:0 "Punished Peasants"
  rococo_grove_punished_modifier_desc:1 "The people of this county have been punished for stealing from a sacred grove."
+#######################################
+# Hindu modifiers
+#######################################
+ rococo_cow_peasant_modifier:0 "Peasants kept Cows"
+ rococo_cow_peasant_modifierr_desc:1 "This county's peasants have kept their herd of cows, and the peasants are rather grateful for the decision."
 
-
+ rococo_cow_temple_modifier:0 "Temple kept Cows"
+ rococo_cow_temple_modifier_desc:1 "This county's peasants have lost a herd of Cows, which have been granted to a local temple."
 
 

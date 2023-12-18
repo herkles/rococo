@@ -1,0 +1,447 @@
+﻿namespace = rococo_hindu
+
+#######################################
+#									  #
+#        General Hindu Events         #
+#									  #
+#######################################
+rococo_hindu.001 = {# Local priest leader wants donations
+	type = court_event
+	title = rococo_hindu.001.t
+	desc = rococo_hindu.001.desc
+	theme = realm
+	court_scene = {
+		button_position_character = scope:priest
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:priest = {
+				group = petitioners_group
+				animation = throne_room_bow_1
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	cooldown = { years = 20 }
+
+	trigger = {
+		NOT = { has_character_flag = rococo_hindu_temple_donation_event_flag }
+		faith.religion = religion:hinduism_religion
+		any_vassal = {
+			faith.religion = religion:hinduism_religion
+			government_has_flag = government_is_theocracy
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		# Court weightings.
+		## Since you take peasant administrative concerns seriously...
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = rococo_hindu_temple_donation_event_flag
+			days = 1825
+		}
+		random_vassal = {
+			limit = {
+				faith.religion = religion:hinduism_religion
+				government_has_flag = government_is_theocracy
+			}
+			save_scope_as = priest
+
+		}		
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
+
+	option = {# Donate to the Temple
+		name = rococo_hindu.001.a
+		pay_short_term_gold = {# Reflects paying your horse
+			target = scope:priest
+			gold = minor_gold_value
+		}
+		scope:priest = {# priest likes this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		stress_impact = {
+ 			zealous = minor_stress_impact_loss
+ 			generous = minor_stress_impact_loss
+			improvident = minor_stress_impact_loss
+			greedy = minor_stress_impact_gain
+ 		}
+ 		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.25
+				ai_energy = 0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = lazy
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = arrogant
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = impatient
+			}
+		}
+	}
+	option = {# Refuse to Donate to the Church
+		name = rococo_hindu.001.b
+		scope:priest = {# Bishop doesn't like this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		stress_impact = {
+ 			zealous = minor_stress_impact_gain
+ 			generous = minor_stress_impact_gain
+			improvident = minor_stress_impact_gain
+			greedy = minor_stress_impact_loss
+ 		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = patient
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = diligent
+			}
+		}
+	}
+
+	after = {
+		scope:priest = {
+			clear_court_event_participation = yes
+			if = {
+				limit = { is_alive = yes }
+				silent_disappearance_effect = yes
+			}
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
+rococo_hindu.002 = {# Cow dispute: Priests and peasants fight over cows and oxens
+	type = court_event
+	title = rococo_hindu.002.t
+	desc = rococo_hindu.002.desc
+	theme = realm
+	lower_center_portrait = cp:councillor_court_chaplain
+	court_scene = {
+		button_position_character = scope:peasant
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:peasant = {
+				group = petitioners_group
+				animation = worry
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	cooldown = { years = 20 }
+
+	trigger = {
+		religion = { is_in_family = rf_pagan }
+		any_held_title = {
+			tier = tier_county
+			county = {
+				faith = root.faith
+				any_county_province = { has_holding = yes }
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		# Court weightings.
+		## Since you take peasant administrative concerns seriously...
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		random_held_title = { # Find a place for loc
+			limit = {
+				tier = tier_county
+				county = {
+					faith = root.faith
+					any_province = { has_holding = yes }
+				}
+			}
+			random_county_province = {
+				limit = { has_holding = yes }
+				save_scope_as = peasant_holding
+			}
+		}
+		hidden_effect = { # Create peasants
+			create_character = {
+				template = servant_character
+				dynasty = none
+				location = root.capital_province
+				gender_female_chance = root_soldier_female_chance
+				trait = beauty_bad_2
+				save_scope_as = peasant
+			}
+			dummy_female = { save_scope_as = dummy_female }
+			dummy_male = { save_scope_as = dummy_male }
+		}
+		scope:peasant = {
+			court_event_character_flag_effect = yes
+		}
+		if = { # Save Court Chaplain if relevant
+			limit = {
+				exists = cp:councillor_court_chaplain
+				cp:councillor_court_chaplain = {
+					has_court_event_flag = no
+					is_available_ai_adult = yes
+				}
+			}
+			cp:councillor_court_chaplain = {
+				save_scope_as = bishop
+				court_event_character_flag_effect = yes
+			}
+		}
+		random_county_province = {
+			limit = { has_holding = yes }
+			save_scope_as = peasant_holding
+		}
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
+
+	option = {# The Cows Belongs to the Temple
+		name = rococo_hindu.002.a
+		scope:bishop = {# Bishop likes this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		scope:peasant_holding = {# county doesn't like being punished
+			add_county_modifier = {
+				modifier = rococo_cow_temple_modifier
+				years = 10
+			}
+		}
+		stress_impact = {
+			compassionate = minor_stress_gain
+			forgiving = minor_stress_gain
+			zealous = minor_stress_loss
+			just = minor_stress_loss
+			wrathful = minor_stress_loss
+			vengeful = minor_stress_loss
+		}
+ 		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.25
+				ai_energy = 0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = lazy
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = arrogant
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = impatient
+			}
+		}
+	}
+	option = {# The Cows Belongs to the Peasants 
+		name = rococo_hindu.002.b
+		scope:bishop = {
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		scope:peasant_holding = {
+			add_county_modifier = {
+				modifier = rococo_cow_peasant_modifier
+				years = 10
+			}
+		}
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+			forgiving = medium_stress_impact_loss
+			zealous = minor_stress_gain
+			wrathful = medium_stress_impact_gain
+			vengeful = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = patient
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = diligent
+			}
+		}
+	}
+	option = {# Try to find a balance
+		name = rococo_hindu.002.c
+		duel = {
+			skill = diplomacy
+			target = scope:bishop
+			8 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 2
+				}
+				desc = rococo_hindu.002.c.tt_success
+				send_interface_toast = {
+					title = rococo_hindu.002.c.tt_success
+					left_icon = scope:wants_simple_vassal
+					scope:bishop = {
+						add_opinion = {
+							modifier = pleased_opinion
+							target = root
+							opinion = 10
+						}
+					}
+					scope:peasant = {
+						add_opinion = {
+							modifier = pleased_opinion
+							target = root
+							opinion = 10
+						}
+					}
+				}
+			}
+			8 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = rococo_hindu.002.c.tt_failure
+				send_interface_toast = {
+					title = rococo_hindu.002.c.tt_failure
+					left_icon = scope:wants_simple_vassal
+					add_prestige = minor_prestige_loss
+					scope:bishop = {
+						add_opinion = {
+							modifier = disappointed_opinion
+							target = root
+							opinion = -10
+						}
+					}
+					scope:peasant = {
+						add_opinion = {
+							modifier = disappointed_opinion
+							target = root
+							opinion = -10
+						}
+					}					
+				}
+			}
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_greed = 1
+				ai_rationality = 0.5
+			}
+		}
+	}
+
+	after = {
+		scope:peasant = {
+			clear_court_event_participation = yes
+			if = {
+				limit = { is_alive = yes }
+				silent_disappearance_effect = yes
+			}
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
+
+#######################################
+#									  #
+#       Vaishnavism Hindu Events      #
+#									  #
+#######################################
+
+# Priests and Monks debate over which Avatar of Vishnu is better
+
+# Debate between the various Vaishavism traditions
+
+#######################################
+#									  #
+#        Shaivism Hindu Events        #
+#									  #
+#######################################
+
+# Temple wants money for a Lingya
+
+#######################################
+#									  #
+#        Shaktism Hindu Events        #
+#									  #
+#######################################
+
+# Debate over Animal Sacrifice within Kalkula
+
+# Spirited Woman wants to be a warrior like Durga
+
+#######################################
+#									  #
+#        Smartism Hindu Events        #
+#									  #
+#######################################
+
+# Local priests want you to support Adi Shankara's places
+
+#######################################
+#									  #
+#        Saura Hindu Events           #
+#									  #
+#######################################
+
+

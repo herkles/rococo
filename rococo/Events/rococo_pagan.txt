@@ -435,6 +435,7 @@ rococo_pagan.003 = {# Peasants need firewood and chopped down a sacred grove
 	cooldown = { years = 20 }
 
 	trigger = {
+		NOT = { has_character_flag = rococo_pagan_sacred_grove_event_flag }
 		religion = { is_in_family = rf_pagan }
 		any_held_title = {
 			tier = tier_county
@@ -454,6 +455,10 @@ rococo_pagan.003 = {# Peasants need firewood and chopped down a sacred grove
 	}
 
 	immediate = {
+		add_character_flag = {
+			flag = rococo_pagan_sacred_grove_event_flag
+			days = 1825
+		}
 		random_held_title = { # Find a place for loc
 			limit = {
 				tier = tier_county
@@ -766,6 +771,7 @@ rococo_pagan.100 = {# Priest wishes for a horse to Sacrifice to the gods
 	cooldown = { years = 20 }
 
 	trigger = {
+		NOT = { has_character_flag = rococo_norse_horse_offering_event_flag }
 		exists = cp:councillor_court_chaplain
 		faith.religion = religion:germanic_religion
 	}
@@ -779,8 +785,9 @@ rococo_pagan.100 = {# Priest wishes for a horse to Sacrifice to the gods
 	}
 
 	immediate = {
-		scope:peasant = {
-			court_event_character_flag_effect = yes
+		add_character_flag = {
+			flag = rococo_norse_horse_offering_event_flag
+			days = 1825
 		}
 		if = { # Save Court Chaplain if relevant
 			limit = {
@@ -788,29 +795,11 @@ rococo_pagan.100 = {# Priest wishes for a horse to Sacrifice to the gods
 				cp:councillor_court_chaplain = {
 					has_court_event_flag = no
 					is_available_ai_adult = yes
+					faith.religion = religion:germanic_religion
 				}
 			}
 			cp:councillor_court_chaplain = {
 				save_scope_as = bishop
-				court_event_character_flag_effect = yes
-			}
-		}
-		if = { # Save Executioner if relevant
-			limit = {
-				employs_court_position = executioner_court_position
-				any_court_position_holder = {
-					type = executioner_court_position
-					has_court_event_flag = no
-					is_available_ai_adult = yes
-				}
-			}
-			random_court_position_holder = {
-				type = executioner_court_position
-				limit = {
-					has_court_event_flag = no
-					is_available_ai_adult = yes
-				}
-				save_scope_as = executioner
 				court_event_character_flag_effect = yes
 			}
 		}
