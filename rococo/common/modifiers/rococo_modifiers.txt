@@ -83,7 +83,7 @@ rococo_grove_punished_modifier = {
 #									  #
 #######################################
 rococo_cow_peasant_modifier = {
-	icon = county_modifier_opinion_negative
+	icon = county_modifier_opinion_positive
 	county_opinion_add = 10
 	tax_mult = 0.05
 }
@@ -92,3 +92,25 @@ rococo_cow_temple_modifier = {
 	county_opinion_add = -10
 	tax_mult = -0.05
 }
+#######################################
+#									  #
+#      	   India Modifiers	          #
+#									  #
+#######################################
+rococo_elephant_india_development_modifier = {
+	icon = county_modifier_opinion_positive
+	county_opinion_add = 10
+	monthly_county_control_change_factor = 0.05
+	development_growth_factor = tiny_development_growth_gain
+}
+rococo_elephant_india_no_development_modifier = {
+	icon = county_modifier_opinion_negative
+	county_opinion_add = -10
+	monthly_county_control_change_factor = -0.05
+	development_growth_factor = tiny_development_growth_loss
+}
+
+
+
+
+

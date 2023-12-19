@@ -52,5 +52,11 @@
 
  rococo_cow_temple_modifier:0 "Temple kept Cows"
  rococo_cow_temple_modifier_desc:1 "This county's peasants have lost a herd of Cows, which have been granted to a local temple."
+#######################################
+# India modifiers
+#######################################
+ rococo_elephant_india_development_modifier:0 "Elephants Helping County"
+ rococo_elephant_india_development_modifier_desc:1 "This county has royal elephants helping to support the peasants with clearing forests and building infrastructure. The peasants are overjoyed at the support from their king."
 
-
+ rococo_elephant_india_no_development_modifier:0 "Elephants protected"
+ rococo_elephant_india_no_development_modifier_desc:1 "This county has asked for royal elephants but has been denied and the peasants have been forbidden from using the royal elephants for their peasant matters. The peasants are rather upset."

@@ -9,7 +9,13 @@
 # Jewish protection Laws
 # Crime against the Jews by one of your Knights
 # Priest or lord brings up the Blood Libel
-
+# EVENT
+# EVENT
+# EVENT
+# EVENT
+# EVENT
+# EVENT
+# EVENT
 
 #######################################
 #									  #
@@ -19,14 +25,16 @@
 
 # Maimonides vs anti-Maimondian faction
 # Jerusalem vs Babylonian Talmud
+# Rabbi comes asking for money to support a Mikveh.
 
-#######################################
-#									  #
-#      	 Samamartian Events      	  #
-#									  #
-#######################################
+# two musicians ask for the position of royal musician(Cantor) to perform at events
 
+# Diaspora Diplomacy 
 
+# Kosher Certification
 
+# Establishment of a Yeshiva 
 
-
+# EVENT
+# EVENT
+# EVENT

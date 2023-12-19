@@ -1,0 +1,16 @@
+﻿l_english:
+#######################################
+# General India Events
+#######################################
+  # Peasants need elephants for clearing forests
+    rococo_india.001.t:0 "Peasants want royal elephants to help with clearing forests."
+    rococo_india.001.desc:0 "A peasant village leader enters your courtroom and bows and kneels before you. "My [ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], I have came from [peasant_holding.GetNameNoTooltip], I have come here to beseech you to allow your Royal Elephants to be used to help clear the forests and build roads." [peasant.GetSheHe] looks to you awaiting your response."
+    rococo_india.001.a:0 "Gladly, I shall donate to your Temple."
+    rococo_india.001.b:0 "Unfortunatly, I can not donate to your temple at this time."
+
+
+
+
+
+
+

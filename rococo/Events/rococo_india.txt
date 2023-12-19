@@ -1,35 +1,186 @@
 ﻿namespace = rococo_india
 
-##################################################
-# Chief Qadi getting Picked
-##################################################
+#######################################
+#									  #
+#        General Indian Events        #
+#									  #
+#######################################
+rococo_india.001 = {# Peasants need elephants for clearing forests
+	type = court_event
+	title = rococo_india.001.t
+	desc = rococo_india.001.desc
+	theme = realm
+	lower_center_portrait = cp:councillor_steward
+	court_scene = {
+		button_position_character = scope:peasant
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:peasant = {
+				group = petitioners_group
+				animation = throne_room_kneel_1
+			}
+		}
+	}
 
-##################################################
-# Sharia Law Events
-##################################################
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
 
-##################################################
-# Chief Qadi Events
-##################################################
+	cooldown = { years = 20 }
 
-##################################################
-# Chief Qadi Events
-##################################################
+	trigger = {
+		capital_province = {
+			geographical_region = world_innovation_elephants
+		}
+		any_held_title = {
+			tier = tier_county
+			county = { any_county_province = { has_holding = yes } }
+		}
+	}
 
-##################################################
-# Chief Qadi Events
-##################################################
+	weight_multiplier = {
+		base = 1
 
-##################################################
-# Chief Qadi Events
-##################################################
+		## Since you take peasant administrative concerns seriously...
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
 
-##################################################
-# Chief Qadi Events
-##################################################
+	immediate = {
+		random_held_title = { # Find a place for loc
+			limit = {
+				tier = tier_county
+				county = { any_province = { has_holding = yes } }
+			}
+			random_county_province = {
+				limit = { has_holding = yes }
+				save_scope_as = peasant_holding
+			}
+		}
+		hidden_effect = { # Create peasants
+			create_character = {
+				template = servant_character
+				dynasty = none
+				location = root.capital_province
+				gender_female_chance = root_soldier_female_chance
+				trait = beauty_bad_2
+				save_scope_as = peasant
+			}
+			dummy_female = { save_scope_as = dummy_female }
+			dummy_male = { save_scope_as = dummy_male }
+		}
+		scope:peasant = {
+			court_event_character_flag_effect = yes
+		}
+		if = { # Save Steward if relevant
+			limit = {
+				exists = cp:councillor_steward
+				cp:councillor_steward = {
+					has_court_event_flag = no
+					is_available_ai_adult = yes
+				}
+			}
+			cp:councillor_steward = {
+				save_scope_as = steward
+				court_event_character_flag_effect = yes
+			}
+		}
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
 
-##################################################
-# Chief Qadi Events
-##################################################
+	option = {# Lend them your elephants
+		name = rococo_india.001.a
+		scope:peasant_holding.county = {# county gets some tiny development
+			add_county_modifier = {
+				modifier = rococo_elephant_india_development_modifier
+				years = 10
+			}
+		}
+		stress_impact = {
+ 			base = medium_stress_impact_gain
+ 			lazy = medium_stress_impact_gain
+ 			arrogant = medium_stress_impact_gain
+ 			impatient = medium_stress_impact_gain
+ 		}
+ 		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.25
+				ai_energy = 0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = lazy
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = arrogant
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = impatient
+			}
+		}
+	}
+	option = {# They are my elements 
+		name = rococo_india.001.b
+		scope:peasant_holding.county = {
+			add_county_modifier = {
+				modifier = rococo_elephant_india_no_development_modifier
+				years = 10
+			}
+		}
+		stress_impact = {
+			patient = medium_stress_impact_gain
+			diligent = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = patient
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = diligent
+			}
+		}
+	}
 
 
+	after = {
+		scope:peasant = {
+			clear_court_event_participation = yes
+			if = {
+				limit = { is_alive = yes }
+				silent_disappearance_effect = yes
+			}
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
+#######################################
+#									  #
+#        Rajasthani Indian Events     #
+#									  #
+#######################################
+
+#######################################
+#									  #
+#        Bengal Indian Events         #
+#									  #
+#######################################
+
+#######################################
+#									  #
+#        Deccan Indian Events         #
+#									  #
+#######################################

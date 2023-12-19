@@ -401,16 +401,11 @@ rococo_hindu.002 = {# Cow dispute: Priests and peasants fight over cows and oxen
 		hold_court_queue_post_event_effect = yes
 	}
 }
-
 #######################################
 #									  #
 #       Vaishnavism Hindu Events      #
 #									  #
 #######################################
-
-# Priests and Monks debate over which Avatar of Vishnu is better
-
-# Debate between the various Vaishavism traditions
 
 #######################################
 #									  #
