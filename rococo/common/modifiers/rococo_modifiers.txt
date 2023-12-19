@@ -77,6 +77,19 @@ rococo_grove_punished_modifier = {
 	icon = county_modifier_opinion_negative
 	county_opinion_add = -10
 }
+rococo_temple_heards_modifier = {
+	icon = county_modifier_opinion_positive
+	county_opinion_add = 10
+	monthly_county_control_change_factor = 0.1
+	tax_mult = 0.08
+}
+rococo_temple_heards_compromised_modifier = {
+	icon = county_modifier_opinion_positive
+	county_opinion_add = 5
+	monthly_county_control_change_factor = 0.05
+	tax_mult = 0.05
+}
+
 #######################################
 #									  #
 #      	   Hindu Modifiers	          #

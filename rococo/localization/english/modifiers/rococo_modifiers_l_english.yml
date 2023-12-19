@@ -44,6 +44,12 @@
 
  rococo_grove_punished_modifier:0 "Punished Peasants"
  rococo_grove_punished_modifier_desc:1 "The people of this county have been punished for stealing from a sacred grove."
+
+ rococo_temple_heards_modifier:0 "Temple Animal Herds"
+ rococo_temple_heards_modifier_desc:1 "This county has had their herds of animals increased much to the betterment of the people and their local lord. "
+
+ rococo_temple_heards_compromised_modifier:0 "Temple Animal Herds"
+ rococo_temple_heards_compromised_modifier_desc:1 "This county has had their herds of animals increased much to the betterment of the people and their local lord. "
 #######################################
 # Hindu modifiers
 #######################################

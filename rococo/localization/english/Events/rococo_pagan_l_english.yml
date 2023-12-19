@@ -22,6 +22,13 @@
     rococo_pagan.003.desc:0 "A lowly peasant, summoned in the presence of your royal court by the esteemed [bishop.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], [peasant.GetTitledFirstName], stands accused of transgression. [bishop.GetSheHe] declares this commoner to be a chieftain of the hamlet, alleging the misdeed of thievery within the consecrated woods. "[ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], I am [peasant.GetTitledFirstName]," pleads the rustic soul, "Indeed, we did pilfer, forsooth, but only in pursuit of survival. We harbor no desire for the wrath of the [ROOT.Char.GetFaith.court_chaplains|E] to befall upon our humble abode." [bishop.GetTitledFirstName] turns to you, seeking guidance on the course of action to be taken."
     rococo_pagan.003.a:0 "The More Gods the Better!"
     rococo_pagan.003.b:0 "I can not support it right now."
+  # Temples fighting over herds
+    rococo_pagan.004.t:0 "Temples fighting over Animal Herds"
+    rococo_pagan.004.desc:0 "Two priests arrive and kneel before you. the first, [priest_one.GetTitledFirstName] speaks first, "My "[ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], a large herd of animals has come into the temple at [priest_one_holding.GetNameNoTooltip] however now "[priest_two.GetTitledFirstName] is trying to steal -" \n\n"My [ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip] do not listen to [priest.GetHerHis] words for the full of venom and lies. That herd actually lives in my land and belongs to the temple in [priest_two_holding.GetNameNoTooltip], it is [priest_one.GetSheHe] who is the real thief!"\n\n They both look to you, awaiting your judgement."
+    rococo_pagan.004.a:0 "The More Gods the Better!"
+    rococo_pagan.004.b:0 "I can not support it right now."
+    rococo_pagan.004.c.tt_success:0 "You convince [wants_simple_vassal.GetTitledFirstName]"
+    rococo_pagan.004.c.tt_failure:0 "You fail to convince [wants_simple_vassal.GetTitledFirstName]"
 #######################################
 # Norse Pagan Events
 #######################################

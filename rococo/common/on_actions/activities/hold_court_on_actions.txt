@@ -106,8 +106,11 @@ hold_court_event_selection = {
 		100 = rococo_pagan.001
 		100 = rococo_pagan.002
 		100 = rococo_pagan.003
+		100 = rococo_pagan.004
 		100 = rococo_pagan.100
 		# Hindu Court Events
+		100 = rococo_hindu.001
+		100 = rococo_hindu.002
 		# Jewish Court Events
 		# Zoroastrian Court Events
 		# Buddhist Court Events
@@ -117,6 +120,8 @@ hold_court_event_selection = {
 		# Byzantine Court Events
 		# Balkan Court Events
 		# Iberia Court Events
+		# India Court Events
+		100 = rococo_india.001
 		# France Court Events
 		# Holy Roman Empire Court Events
 		# Italy Court Events
