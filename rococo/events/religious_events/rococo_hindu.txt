@@ -138,10 +138,6 @@ rococo_hindu.001 = {# Local priest leader wants donations
 	after = {
 		scope:priest = {
 			clear_court_event_participation = yes
-			if = {
-				limit = { is_alive = yes }
-				silent_disappearance_effect = yes
-			}
 		}
 		# Finish up the chain if relevant.
 		hold_court_queue_post_event_effect = yes
@@ -431,7 +427,202 @@ rococo_hindu.002 = {# Cow dispute: Priests and peasants fight over cows and oxen
 #									  #
 #######################################
 
-# Local priests want you to support Adi Shankara's places
+rococo_hindu.400 = {# Local priests want you to support Adi Shankara's places
+	type = court_event
+	title = rococo_hindu.400.t
+	desc = rococo_hindu.400.desc
+	theme = realm
+	court_scene = {
+		button_position_character = scope:priest
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:priest = {
+				group = petitioners_group
+				animation = throne_room_bow_1
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	cooldown = { years = 20 }
+
+	trigger = {
+		NOT = { has_character_flag = rococo_hindu_temple_donation_event_flag }
+		faith.religion = religion:hinduism_religion
+		OR = {# have to own one of the sites associated with Adi
+			has_title = title:c_madurai # Rameswarm one of the Char Dham
+			has_title = title:c_dvaraka # Dvaraka one of the Char Dham
+			has_title = title:c_puri # Puri one of the Char dham
+			has_title = title:c_kumaon # Badrinath one of the Char dham
+		}
+		exists = cp:councillor_court_chaplain
+		cp:councillor_court_chaplain = {
+			has_court_event_flag = no
+			is_available_ai_adult = yes
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		# Court weightings.
+		## Since you take peasant administrative concerns seriously...
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = rococo_hindu_temple_donation_event_flag
+			days = 1825
+		}
+		random_county_in_region = {
+			region = world_india
+			limit = { # One of the Char Dham
+				OR = {# have to own one of the sites associated with Adi
+					has_title = title:c_madurai # Rameswarm one of the Char Dham
+					has_title = title:c_dvaraka # Dvaraka one of the Char Dham
+					has_title = title:c_puri # Puri one of the Char dham
+					has_title = title:c_kumaon # Badrinath one of the Char dham
+				}
+			}
+			save_scope_as = adi_pilgrimage_county
+		}
+		if = { # Save Court Chaplain if relevant
+			limit = {
+				exists = cp:councillor_court_chaplain
+				cp:councillor_court_chaplain = {
+					has_court_event_flag = no
+					is_available_ai_adult = yes
+				}
+			}
+			cp:councillor_court_chaplain = {
+				save_scope_as = priest
+				court_event_character_flag_effect = yes
+			}
+		}		
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
+
+	option = {# Donate to the Temple
+		name = rococo_hindu.400.a
+		pay_short_term_gold = {# Reflects paying for the temple
+			target = scope:priest
+			gold = medieum_gold_value
+		}
+		scope:priest = {# priest likes this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		scope:adi_pilgrimage_county.county = {# county doesn't like being punished
+			add_county_modifier = {
+				modifier = rococo_adi_temple_county_modifier
+				years = 10
+			}
+		}
+		stress_impact = {
+ 			zealous = minor_stress_impact_loss
+ 			generous = minor_stress_impact_loss
+			improvident = minor_stress_impact_loss
+			greedy = minor_stress_impact_gain
+ 		}
+		if = {# Smartism and Advita gain bigger piety being associated with Adi
+			limit = {
+				or = {
+					faith = faith:advaitism
+					faith = faith:smartism
+				}
+			}
+			add_piety = medium_piety_gain
+		}
+		else = {# Other Hindu faiths gain a piety bonus too just not as big
+			add_piety = minor_piety_gain
+		}
+
+ 		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.25
+				ai_energy = 0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = lazy
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = arrogant
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = impatient
+			}
+		}
+	}
+	option = {# Refuse to Donate to the Church
+		name = rococo_hindu.400.b
+		scope:priest = {# Bishop doesn't like this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		stress_impact = {
+ 			zealous = minor_stress_impact_gain
+ 			generous = minor_stress_impact_gain
+			improvident = minor_stress_impact_gain
+			greedy = minor_stress_impact_loss
+ 		}
+		if = {# Smartism and Advita gain bigger piety penalty being associated with Adi
+			limit = {
+				or = {
+					faith = faith:advaitism
+					faith = faith:smartism
+				}
+			}
+			add_piety = medium_piety_loss
+		}
+		else = {# Other Hindu faiths gain a piety penalty too just not as big
+			add_piety = minor_piety_loss
+		}
+
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = patient
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = diligent
+			}
+		}
+	}
+
+	after = {
+		scope:priest = {
+			clear_court_event_participation = yes
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
+
 
 #######################################
 #									  #

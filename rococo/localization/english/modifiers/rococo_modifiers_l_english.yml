@@ -58,6 +58,10 @@
 
  rococo_cow_temple_modifier:0 "Temple kept Cows"
  rococo_cow_temple_modifier_desc:1 "This county's peasants have lost a herd of Cows, which have been granted to a local temple."
+
+ rococo_adi_temple_county_modifier:0 "Char Dham Supported"
+ rococo_adi_temple_county_modifier_desc:1 "This county holds one of the Four Char Dham, holy sites established by Adi Shankara, a site that has recently seen an increase in support for the temple and pilgrims. "
+
 #######################################
 # India modifiers
 #######################################

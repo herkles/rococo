@@ -105,6 +105,12 @@ rococo_cow_temple_modifier = {
 	county_opinion_add = -10
 	tax_mult = -0.05
 }
+rococo_adi_temple_county_modifier = {
+	icon = county_modifier_opinion_positive
+	county_opinion_add = 10
+	tax_mult = 0.01
+	travel_danger = -10
+}
 #######################################
 #									  #
 #      	   India Modifiers	          #

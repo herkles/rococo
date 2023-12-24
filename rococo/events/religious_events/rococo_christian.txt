@@ -6,9 +6,464 @@
 #									  #
 #######################################
 
+rococo_christian.001 = {# Asking Pagans for hospitality to Spread the message of Jesus
+	type = court_event
+	title = rococo_christian.001.t
+	desc = rococo_christian.001.desc
+	theme = court
+	court_scene = {
+		button_position_character = scope:missionary
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:missionary = {
+				group = petitioners_group
+				animation = personality_rational
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	cooldown = { years = 25 }
+
+	trigger = {
+		religion = { is_in_family = rf_pagan }
+		any_neighboring_and_across_water_top_liege_realm_owner = {
+			has_religion = religion:christianity_religion 
+		}
+	}
+
+	weight_multiplier = {
+		# Court weightings.
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_scholarly }
+	}
+
+	immediate = {
+		random_held_county = {# Pagan county that might be converted
+			limit = { not = { has_religion = religion:christianity_religion }	}
+			save_scope_as = rococo_held_pagan_county
+		}
+		random_neighboring_and_across_water_top_liege_realm_owner = {
+			limit = { 
+				has_religion = religion:christianity_religion 
+				NOT = { is_at_war_with = root }
+			}
+		   save_scope_as = neighboring_christian_ruler 	
+		}
+		create_character = {
+			location = root.capital_province
+			template = priest_character_template
+			faith = scope:neighboring_christian_ruler.faith
+			culture = scope:neighboring_christian_ruler.culture
+			gender_female_chance = root_faith_clergy_gender_female_chance		
+			random_traits_list = {# The Missionary's Education
+				count = 1
+				education_learning_1 = {}
+				education_learning_2 = {}
+				education_learning_3 = {}
+				education_learning_4 = {}
+				education_learning_5 = {}
+			}
+			random_traits = yes
+			trait = devoted
+			save_scope_as = missionary
+		}
+		scope:missionary = { court_event_character_flag_effect = yes	}
+
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
+
+	option = {# You can stay here
+		name = rococo_christian.001.a
+		add_prestige = minor_prestige_gain # hospitality is prestigious
+		every_vassal = {
+			limit = { has_religion = religion:christianity_religion  }
+			custom = rococo_christian.001.d.tt
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		every_courtier_or_guest = {# guests and courtiers who are Christian like that this
+			limit = { has_religion = religion:christianity_religion  }
+			custom = rococo_christian.001.d.tt
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		add_character_modifier = {
+			modifier = tolerant_opinion_modifier
+			years = 5
+		}
+		every_vassal = {# Zealot Vassals don't like this
+			custom = every_zealot_vassal
+			limit = {
+				faith = root.faith
+				has_vassal_stance = zealot 
+			}
+			add_opinion = {
+				target = root
+				modifier = disapproving_opinion
+			}
+		}		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_rationality = 0.5
+			}
+		}
+	}
+	option = {# you can go to the county
+		name = rococo_christian.001.b
+		skill = learning
+		add_prestige = minor_prestige_gain
+		add_piety = minor_piety_loss
+		add_character_modifier = {
+			modifier = tolerant_opinion_modifier
+			years = 10
+		}
+		every_vassal = {
+			limit = { has_religion = religion:christianity_religion  }
+			custom = rococo_christian.001.d.tt
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		every_courtier_or_guest = {# guests and courtiers who are Christian like that this
+			limit = { has_religion = religion:christianity_religion  }
+			custom = rococo_christian.001.d.tt
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		every_vassal = {# Zealot Vassals really don't like this
+			custom = every_zealot_vassal
+			limit = {
+				faith = root.faith
+				has_vassal_stance = zealot 
+			}
+			add_opinion = {
+				target = root
+				modifier = irritated_opinion
+			}
+		}		
+		stress_impact = {
+			content = minor_stress_impact_gain
+			impatient = minor_stress_impact_gain
+			irritable = medium_stress_impact_gain
+			arrogant = medium_stress_impact_gain
+			lazy = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_rationality = 0.5
+			}
+			modifier = {
+				has_trait = content
+				add = -25
+			}
+			modifier = {
+				has_trait = impatient
+				add = -25
+			}
+			modifier = {
+				has_trait = irritable
+				add = -50
+			}
+			modifier = {
+				has_trait = arrogant
+				add = -50
+			}
+			modifier = {
+				has_trait = lazy
+				add = -50
+			}
+			modifier = {
+				has_trait = ambitious
+				add = 50
+			}
+		}
+		hidden_effect = {
+			random_list = {# setting it for the variable for conversion
+				50 = {# The county converts
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = temperate }
+					}
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = generous }
+					}
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = calm }
+					}					
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = patient }
+					}					
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = humble }
+					}
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = honest }
+					}
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = gregarious }
+					}
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = compassionate }
+					}
+					set_variable = { name = rococo_missionary_success_var }
+				}
+				50 = {# Nothing Happens
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = lustful }
+					}
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = gluttonous }
+					}
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = greedy }
+					}					
+					modifier = {
+						add = 10
+						scope:missionary = { has_trait = lazy }
+					}					
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = wrathful }
+					}
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = impatient }
+					}
+					modifier = {
+						add = 5
+						scope:missionary = { has_trait = deceitful }
+					}
+				}
+			}
+		}
+	}
+	option = {# Religious oppression
+		name = rococo_christian.001.c
+		trigger = {
+			OR = {
+				has_trait = zealous
+				has_trait = vengeful
+				has_trait = sadistic
+				has_trait = paranoid
+				has_trait = callous
+			}
+		}
+		add_dread = medium_dread_gain
+		rightfully_imprison_character_effect = {
+			TARGET = scope:missionary
+			IMPRISONER = root
+		}
+		every_vassal = {
+			limit = { has_religion = religion:christianity_religion  }
+			custom = rococo_christian.001.d.tt
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -25
+			}
+		}
+		every_courtier_or_guest = {# guests and courtiers who are Christian like that this
+			limit = { has_religion = religion:christianity_religion  }
+			custom = rococo_christian.001.d.tt
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -25
+			}
+		}
+		every_vassal = {# Zealot Vassals really don't like this
+			custom = every_zealot_vassal
+			limit = {
+				faith = root.faith
+				has_vassal_stance = zealot 
+			}
+			add_opinion = {
+				target = root
+				modifier = approving_opinion
+			}
+		}
+		ai_chance = {
+			base = 200
+		}
+	}
+
+	after = {
+		if = {
+			limit = { has_variable = rococo_missionary_success_var }
+			trigger_event = {
+				id = rococo_christian.002
+				days = 1830 # 5 years + 5 days
+			}
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
+rococo_christian.002 = {# The county converts
+	type = court_event
+	title = rococo_christian.002.t
+	desc = rococo_christian.002.desc
+	theme = court
+	court_scene = {
+		button_position_character = scope:missionary
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:missionary = {
+				group = petitioners_group
+				animation = personality_rational
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	immediate = {
+		scope:rococo_held_pagan_county = { set_county_faith = scope:missionary.faith }
+		scope:missionary = { court_event_character_flag_effect = yes }
+
+	}
+
+	option = {# Build the church
+		name = rococo_christian.001.a
+		add_prestige = minor_prestige_gain # hospitality is prestigious
+		every_vassal = {
+			limit = { has_religion = religion:christianity_religion  }
+			custom = rococo_christian.001.d.tt
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		every_courtier_or_guest = {# guests and courtiers who are Christian like that this
+			limit = { has_religion = religion:christianity_religion  }
+			custom = rococo_christian.001.d.tt
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		add_character_modifier = {
+			modifier = tolerant_opinion_modifier
+			years = 5
+		}
+		every_vassal = {# Zealot Vassals don't like this
+			custom = every_zealot_vassal
+			limit = {
+				faith = root.faith
+				has_vassal_stance = zealot 
+			}
+			add_opinion = {
+				target = root
+				modifier = disapproving_opinion
+			}
+		}
+		scope:rococo_held_pagan_county = {
+			begin_create_holding = {
+				type = church_holding
+				refund_cost = { gold = hold_court_holding_cost_cheaper_value }
+			}
+		}		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_rationality = 0.5
+			}
+		}
+	}
+	option = {# This ends here
+		name = rococo_christian.001.c
+		add_dread = medium_dread_gain
+		rightfully_imprison_character_effect = {
+			TARGET = scope:missionary
+			IMPRISONER = root
+		}
+		every_vassal = {
+			limit = { has_religion = religion:christianity_religion  }
+			custom = rococo_christian.001.d.tt
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -25
+			}
+		}
+		every_courtier_or_guest = {# guests and courtiers who are Christian like that this
+			limit = { has_religion = religion:christianity_religion  }
+			custom = rococo_christian.001.d.tt
+			add_opinion = {
+				target = root
+				modifier = scared_opinion
+				opinion = -25
+			}
+		}
+		every_vassal = {# Zealot Vassals really don't like this
+			custom = every_zealot_vassal
+			limit = {
+				faith = root.faith
+				has_vassal_stance = zealot 
+			}
+			add_opinion = {
+				target = root
+				modifier = approving_opinion
+			}
+		}
+		ai_chance = {
+			base = 200
+		}
+	}
+
+	after = {
+		if = {
+			limit = { has_variable = rococo_missionary_success_var }
+			trigger_event = {
+				id = rococo_christian.002
+				days = 1830 # 5 years + 5 days
+			}
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
 # Dispute between a Monastery and Bishopric
 # Heresy Trial
-# Asking Pagans for hospitality to Spread the message of Jesus
 
 #######################################
 #									  #

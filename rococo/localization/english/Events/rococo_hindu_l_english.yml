@@ -15,6 +15,30 @@
     rococo_hindu.002.c:0 "Try to find a compromise."
     rococo_hindu.002.c.tt_success:0 "You convince [wants_simple_vassal.GetTitledFirstName]"
     rococo_hindu.002.c.tt_failure:0 "You fail to convince [wants_simple_vassal.GetTitledFirstName]"
+#######################################
+# Vaishnavism Events
+#######################################
+
+#######################################
+# Shaivism Events
+#######################################
+
+#######################################
+# Shaktism Events
+#######################################
+
+#######################################
+# Smartism Events
+#######################################
+  # Court Chaplain wants donations for one of the Char Dhams
+    rococo_hindu.400.t:0 "Court Chaplain wants donations for one of the Char Dhams"
+    rococo_hindu.400.desc:0 "Your [priest.GetTitle], [priest.GetTitledFirstName], has entered your court room and kneels before you and states, "My [ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], I humbly beesech you to support [adi_pilgrimage_county.GetName], one of the four holy Char Dhams that the great Adi Shankara founded and supported. Helping to support the temple will surely increase your karma and help with the pilgrims who are headed that way."[priest.GetSheHe] looks to you awaiting your response."
+    rococo_hindu.400.a:0 "Gladly, I shall donate to the Temple."
+    rococo_hindu.400.b:0 "Unfortunatly, I can not donate to your temple at this time."
+
+#######################################
+# Saura Events
+#######################################
 
 
 

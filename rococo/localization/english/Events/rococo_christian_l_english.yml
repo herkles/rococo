@@ -1,5 +1,28 @@
 ﻿l_english:
 #######################################
+# General Christian events
+#######################################
+  # A christian Missionary arrives
+    rococo_christian.001.t:0 "A Christian Missionary Arrives"
+    rococo_christian.500.desc:0 "A [missionary.GetManWoman] has arrived into your court and bows before you. [missionary.GetSheHe] speaks, "Great [ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], I have arrived in your lands to spread the word of our Saviour, Jesus Christ. Your hospitality is well known, and I wish to go to [rococo_pagan_county.GetName] to spread the message of Jesus Christ.""
+    rococo_christian.001.a:0 "You can stay in my court"
+    rococo_christian.001.b:0 "You can go to [rococo_pagan_county.GetName]"
+    rococo_christian.001.c:0 "No! I shall not allow you to poison my people."
+
+    rococo_christian.002.t:0 "The people of [rococo_pagan_county.GetName] Convert"
+    rococo_christian.002.desc:0 "The people of [rococo_pagan_county.GetName] have decided to embrace the teachings of Jesus Christ as taught by the missionary [missionary.GetTitledFirstName]. [missionary.GetSheHe] writes to you asking for your blessing to build a church in the area."
+    rococo_christian.002.a:0 "They can build their church, just pay the taxes and fight in my armies"
+    rococo_christian.002.b:0 "This Poison ends here!"
+
+    rococo_christian.003.t:0 "The Missionary Leaves
+    rococo_christian.003.desc:0 "The missionary, [missionary.GetTitledFirstName], has found little success in [rococo_pagan_county.GetName]. The missionary has decided to move on and leave your lands for better lands."
+    rococo_christian.003.a:0 "I see"
+
+
+
+
+
+#######################################
 # Proto-Prostant events
 #######################################
   # Arts and Crafts vs Simple Living

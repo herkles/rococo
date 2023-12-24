@@ -99,6 +99,7 @@ hold_court_event_selection = {
 		# Muslim Court Events
 		500 = rococo_muslim.001 # Appointing a Cheif Qadi
 		# Christian Court Events
+		100 = rococo_christian.001
 		100 = rococo_christian.500
 		100 = rococo_christian.501
 		100 = rococo_christian.502
@@ -111,6 +112,7 @@ hold_court_event_selection = {
 		# Hindu Court Events
 		100 = rococo_hindu.001
 		100 = rococo_hindu.002
+		100 = rococo_hindu.400
 		# Jewish Court Events
 		# Zoroastrian Court Events
 		# Buddhist Court Events
