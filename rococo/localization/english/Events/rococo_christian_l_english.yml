@@ -14,11 +14,16 @@
     rococo_christian.002.a:0 "They can build their church, just pay the taxes and fight in my armies"
     rococo_christian.002.b:0 "This Poison ends here!"
 
-    rococo_christian.003.t:0 "The Missionary Leaves
-    rococo_christian.003.desc:0 "The missionary, [missionary.GetTitledFirstName], has found little success in [rococo_pagan_county.GetName]. The missionary has decided to move on and leave your lands for better lands."
-    rococo_christian.003.a:0 "I see"
 
-
+#######################################
+# Gnostic events
+#######################################
+  # Promoting Pescetarinism
+    rococo_christian.400.t:0 "The Missionary Leaves
+    rococo_christian.400.desc:0 "Your court chaplain, [bishop.GetTitledFirstName], comes to you, and bowing, [bishop.GetSheHe] speaks, "My [ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], I have heard that you support the practice of eating meat. The great prophet Jesus did not support us eating meat, and consquently you should adopt a diet without meat.""
+    rococo_christian.400.a:0 "I shall embrace it"
+    rococo_christian.400.b:0 "I shall not embrace it"
+    rococo_christian.400.c:0 "All [ROOT.Char.GetCulture.GetNameNoTooltip] shall embrace it!"
 
 
 

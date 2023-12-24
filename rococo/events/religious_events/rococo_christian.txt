@@ -490,14 +490,11 @@ scripted_trigger rococo_is_catholic = {
 #									  #
 #######################################
 
-# Artist wishes to create a Holy Icon
-
 #######################################
 #									  #
 #      Coptic Christian Events	      #
 #									  #
 #######################################
-
 
 #######################################
 #									  #
@@ -511,10 +508,234 @@ scripted_trigger rococo_is_gnostic_christian = {# for the Gnostic Christian Fait
 	}
 }
 
-# Composing the New Gnostic Bible
 # Iconoclasm vs Iconophile
 # Relationship with the Jews?
 # Promoting Pescetarianism
+rococo_christian.400 = {# # Promoting Pescetarianism
+	type = court_event
+	title = rococo_christian.400.t
+	desc = rococo_christian.400.desc
+	theme = realm
+	court_scene = {
+		button_position_character = scope:priest
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:priest = {
+				group = petitioners_group
+				animation = throne_room_bow_1
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	cooldown = { years = 20 }
+
+	trigger = {
+		NOT = { has_character_flag = rococo_christian_vegetarian_event_flag }
+		OR = {
+			faith = faith:cathar # Cathars always get this
+			AND = {# Gnostic faiths that are similar
+				has_religion = religion:christianity_religion
+				OR = {# gnostic
+					faith = { has_doctrine = tenet_gnosticism }
+					faith = { has_doctrine = special_doctrine_is_gnostic_faith }
+				} 
+				faith = { has_doctrine = tenet_pacifism } # Pacifism to support vegetarianism
+			}
+		}
+
+
+
+		faith.religion = religion:hinduism_religion
+
+		exists = cp:councillor_court_chaplain
+		cp:councillor_court_chaplain = {
+			has_court_event_flag = no
+			is_available_ai_adult = yes
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		# Court weightings.
+		## Since you take peasant administrative concerns seriously...
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = rococo_christian_vegetarian_event_flag
+			days = 1825
+		}
+		if = { # Save Court Chaplain if relevant
+			limit = {
+				exists = cp:councillor_court_chaplain
+				cp:councillor_court_chaplain = {
+					has_court_event_flag = no
+					is_available_ai_adult = yes
+				}
+			}
+			cp:councillor_court_chaplain = {
+				save_scope_as = priest
+				court_event_character_flag_effect = yes
+			}
+		}		
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
+
+	option = {# support Vegetarianism
+		name = rococo_christian.400.a
+		scope:priest = {# priest likes this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		every_vassal = {# Zealot Vassals like this
+			custom = every_zealot_vassal
+			limit = { has_vassal_stance = zealot }
+			add_opinion = {
+				target = root
+				modifier = approving_opinion
+			}
+		}
+		every_vassal = {# non-Zealot Vassals don't like this
+			custom = every_zealot_vassal
+			limit = { Not = {has_vassal_stance = zealot } }
+			add_opinion = {
+				target = root
+				modifier = disapproving_opinion
+			}
+		}
+		every_courtier_or_guest = {# dislikes this
+			custom = custom.every_courtier_and_guest
+			add_opinion = {
+				target = root
+				modifier = amused_opinion
+				opinion = 10
+			}
+		}
+
+		stress_impact = {
+ 			zealous = minor_stress_impact_loss
+ 			generous = minor_stress_impact_loss
+			improvident = minor_stress_impact_loss
+			greedy = minor_stress_impact_gain
+ 		}
+ 		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.25
+				ai_energy = 0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = lazy
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = arrogant
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = impatient
+			}
+		}
+	}
+	option = {# Don't support vegetarianism
+		name = rococo_christian.400.b
+		scope:priest = {# Bishop doesn't like this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		stress_impact = {
+ 			zealous = minor_stress_impact_gain
+ 			generous = minor_stress_impact_gain
+			improvident = minor_stress_impact_gain
+			greedy = minor_stress_impact_loss
+ 		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = patient
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = diligent
+			}
+		}
+	}
+	option = {# promote it throughout your culture
+		name = rococo_christian.400.c
+		trigger = {
+			this = root.culture.culture_head
+			root.culture = {
+				NOT = { has_cultural_tradition = tradition_vegetarianism }
+			}
+		}
+		scope:priest = {# priest likes this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = 15
+		 	}
+		}
+		add_piety = major_piety_gain
+		root.culture = { add_culture_tradition = tradition_vegetarianism }
+		stress_impact = {
+ 			zealous = minor_stress_impact_loss
+ 			generous = minor_stress_impact_loss
+			improvident = minor_stress_impact_loss
+			greedy = minor_stress_impact_gain
+ 		}
+ 		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.25
+				ai_energy = 0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = lazy
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = arrogant
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = impatient
+			}
+		}
+	}
+
+
+
+	after = {
+		scope:priest = {
+			clear_court_event_participation = yes
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
 
 #######################################
 #									  #
@@ -1489,6 +1710,3 @@ rococo_christian.502 = {# # How to deal with Catholics?
 		}
 	}
 }
-# Debate over the nature of Confession
-# Exorcisms and Hallowings, be they Necromancy or Blessings
-# What to do about monasteries?

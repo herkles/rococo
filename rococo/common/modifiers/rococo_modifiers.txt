@@ -4,6 +4,15 @@
 #      	 Christian Modifiers	      #
 #									  #
 #######################################
+rococo_vegetarinism_modifier = {
+	icon = feast_positive
+	stress_loss_mult = 0.25
+	health = 0.5
+	religious_vassal_opinion = 10
+}
+
+
+
 rococo_simple_living_modifier = {
 	icon = piety_positive
 	health = miniscule_health_penalty

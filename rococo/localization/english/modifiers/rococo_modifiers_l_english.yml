@@ -1,5 +1,11 @@
 ﻿l_english:
 #######################################
+# Gnostic modifiers
+#######################################
+ rococo_vegetarinism_modifier:0 "Pescetarian supporter"
+ rococo_vegetarinism_modifier_desc:1 "This character is supporting pescetarianism and promoting it through their land."
+
+#######################################
 # Proto-Prostant modifiers
 #######################################
  rococo_county_simple_living_modifier:0 "Enforced Asceticism"
