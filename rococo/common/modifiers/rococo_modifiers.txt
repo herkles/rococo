@@ -10,9 +10,6 @@ rococo_vegetarinism_modifier = {
 	health = 0.5
 	religious_vassal_opinion = 10
 }
-
-
-
 rococo_simple_living_modifier = {
 	icon = piety_positive
 	health = miniscule_health_penalty
@@ -119,6 +116,22 @@ rococo_adi_temple_county_modifier = {
 	county_opinion_add = 10
 	tax_mult = 0.01
 	travel_danger = -10
+}
+#######################################
+#									  #
+#      	 Jewish Modifiers	          #
+#									  #
+#######################################
+rococo_jewish_protection_modifier = {
+	icon = county_modifier_opinion_negative
+	county_opinion_add = 10
+	monthly_county_control_change_factor = 0.05
+
+}
+rococo_no_jewish_protection_modifier = {
+	icon = county_modifier_opinion_negative
+	county_opinion_add = -10
+	monthly_county_control_change_factor = -0.05
 }
 #######################################
 #									  #

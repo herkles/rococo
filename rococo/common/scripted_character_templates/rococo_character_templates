@@ -1,0 +1,93 @@
+
+#######################################
+#									  #
+#      	  Jewish Characters	          #
+#									  #
+#######################################
+ashkenazi_jewish_merchant_character = {# Ashkenazi Jews
+	age = { 25 50 }
+
+	random_traits_list = {
+		count = 1
+		education_stewardship_2 = {}
+		education_stewardship_3 = {}
+		education_stewardship_4 = {}
+	}
+
+	random_traits = yes
+
+	culture = culture:ashkenazi
+	faith = faith:kabarism # temporary, see after_creation effect below
+
+	gender_female_chance = 0
+
+	stewardship = {
+		min_template_high_skill
+		max_template_high_skill
+	}
+
+	after_creation = {
+		religion:judaism_religion = {
+			random_faith = {
+				limit = {
+					is_mainstream_jewish_faith = yes
+				}
+				save_scope_as = courtier_faith
+			}
+		}
+		set_character_faith = scope:courtier_faith
+	}
+}
+bavlim_jewish_merchant_character = {# bavlim Jews
+	age = { 25 50 }
+
+	random_traits_list = {
+		count = 1
+		education_stewardship_2 = {}
+		education_stewardship_3 = {}
+		education_stewardship_4 = {}
+	}
+
+	random_traits = yes
+
+	culture = culture:bavlim
+	faith = faith:kabarism # temporary, see after_creation effect below
+
+	gender_female_chance = 0
+
+	stewardship = {
+		min_template_high_skill
+		max_template_high_skill
+	}
+
+	after_creation = {
+		religion:judaism_religion = {
+			random_faith = {
+				limit = {
+					is_mainstream_jewish_faith = yes
+				}
+				save_scope_as = courtier_faith
+			}
+		}
+		set_character_faith = scope:courtier_faith
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

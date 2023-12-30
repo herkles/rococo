@@ -5,17 +5,592 @@
 #	  Mostly for Non-Jewish rulers	  #
 #######################################
 
-# Disputation of Paris - Putting the Talmud on Trial in Catholic lands
-# Jewish protection Laws
-# Crime against the Jews by one of your Knights
-# Priest or lord brings up the Blood Libel
-# EVENT
-# EVENT
-# EVENT
-# EVENT
-# EVENT
-# EVENT
-# EVENT
+rococo_jewish.001 = {# Disputation of Paris style - Putting the Talmud on Trial in Catholic lands
+	type = court_event
+	title = rococo_jewish.001.t
+	desc = rococo_jewish.001.desc
+	theme = realm
+	lower_center_portrait = cp:councillor_court_chaplain
+	court_scene = {
+		button_position_character = scope:jewish_leader
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:jewish_leader = {
+				group = petitioners_group
+				animation = worry
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	cooldown = { years = 20 }
+
+	trigger = {
+		NOT = { has_character_flag = rococo_jewish_talmud_debate_flag }
+		has_religion = religion:christianity_religion 
+		root.culture = { has_innovation = innovation_development_04 } 
+		any_held_title = {
+			tier = tier_county
+			county = {
+				any_county_province = {	has_holding_type = city_holding }
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		# Court weightings.
+		## Since you do legal matters
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = rococo_pagan_sacred_grove_event_flag
+			days = 1825
+		}
+		hidden_effect = { # Create the Jewish leader
+			if = {# Iberian gnostics get a Sephardic Jew
+				limit = {
+					capital_province = {
+						OR = {
+							geographical_region = world_europe_west_iberia
+							geographical_region = world_europe_south
+						}
+					}
+				}
+				create_character = {
+					template = spanish_jewish_merchant_character
+					location = root.capital_province
+					save_scope_as = jewish_leader
+				}
+			}
+			else_if = {# Non-eastern mediteranians get Ashkenazi Jew
+				limit = {
+					capital_province = {
+						OR = {
+							geographical_region = world_europe_north
+							geographical_region = world_europe_west_germania
+							geographical_region = world_europe_west_britannia
+							geographical_region = world_europe_east
+							geographical_region = world_europe_west_francia
+
+						}
+					}
+				}
+				create_character = {
+					template = ashkenazi_jewish_merchant_character
+					location = root.capital_province
+					save_scope_as = jewish_leader
+				}
+			}
+			else = {# rest get Bavlim
+				create_character = {
+					template = bavlim_jewish_merchant_character
+					location = root.capital_province
+					save_scope_as = jewish_leader
+				}
+			}
+
+
+			dummy_female = { save_scope_as = dummy_female }
+			dummy_male = { save_scope_as = dummy_male }
+		}
+		scope:jewish_leader = {	court_event_character_flag_effect = yes }
+		if = { # Save Court Chaplain if relevant
+			limit = {
+				exists = cp:councillor_court_chaplain
+				cp:councillor_court_chaplain = {
+					has_court_event_flag = no
+					is_available_ai_adult = yes
+				}
+			}
+			cp:councillor_court_chaplain = {
+				save_scope_as = bishop
+				court_event_character_flag_effect = yes
+			}
+		}
+		capital_province = {# for localization
+			save_scope_as = rococo_talmud_diposition_province
+		}
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
+
+
+	option = {# Burn the books as heretical - Historical Outcome
+		name = rococo_jewish.001.a
+		scope:bishop = {# Bishop likes this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		every_vassal = {# Zealot Vassals like this
+			custom = every_zealot_vassal
+			limit = {
+				faith = root.faith
+				has_vassal_stance = zealot 
+			}
+			add_opinion = {
+				target = root
+				modifier = disapproving_opinion
+			}
+		}
+		every_vassal = {# Jewish Vassals hate this
+			limit = { has_religion = religion:christianity_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		every_courtier_or_guest = {# Jewish Guests and Courtiers hate this
+			limit = { has_religion = religion:christianity_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		stress_impact = {
+			compassionate = minor_stress_gain
+			forgiving = minor_stress_gain
+			zealous = minor_stress_loss
+			just = minor_stress_loss
+			wrathful = minor_stress_loss
+			vengeful = minor_stress_loss
+		}
+ 		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.25
+				ai_energy = 0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = lazy
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = arrogant
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = impatient
+			}
+		}
+	}
+	option = {# The Talmud is wrong but not heretical. 
+		name = rococo_jewish.001.b
+		scope:bishop = {# Bishop doesn't like this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		every_vassal = {# Zealot Vassals are okay with this this
+			custom = every_zealot_vassal
+			limit = {
+				faith = root.faith
+				has_vassal_stance = zealot 
+			}
+			add_opinion = {
+				target = root
+				modifier = disapproving_opinion
+			}
+		}
+		every_vassal = {# Jewish Vassals are greatful nothing bad will happen
+			limit = { has_religion = religion:christianity_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		every_courtier_or_guest = {# guests and courtiers who are Jewish like that this
+			limit = { has_religion = religion:christianity_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+			forgiving = medium_stress_impact_loss
+			zealous = minor_stress_gain
+			wrathful = medium_stress_impact_gain
+			vengeful = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = patient
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = diligent
+			}
+		}
+	}
+	option = {# The Talmud wins the case completly
+		name = rococo_jewish.001.c
+		scope:bishop = {# Bishop doesn't like likes this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		every_vassal = {# Zealot Vassals don't like this
+			custom = every_zealot_vassal
+			limit = {
+				faith = root.faith
+				has_vassal_stance = zealot 
+			}
+			add_opinion = {
+				target = root
+				modifier = disapproving_opinion
+			}
+		}
+		every_vassal = {# Jewish Vassals like this
+			limit = { has_religion = religion:christianity_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		every_courtier_or_guest = {# guests and courtiers who are Jewish like that this
+			limit = { has_religion = religion:christianity_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+			forgiving = medium_stress_impact_gain
+			zealous = minor_stress_loss
+			wrathful = medium_stress_impact_loss
+			vengeful = medium_stress_impact_loss
+		}
+		ai_chance = {# Ai should almost never do it
+			base = 1
+		}
+	}
+
+	after = {
+		scope:peasant = {
+			clear_court_event_participation = yes
+			if = {
+				limit = { is_alive = yes }
+				silent_disappearance_effect = yes
+			}
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
+rococo_jewish.002 = {# Jewish protection Laws
+	type = court_event
+	title = rococo_jewish.002.t
+	desc = rococo_jewish.002.desc
+	theme = realm
+	lower_center_portrait = cp:councillor_court_chaplain
+	court_scene = {
+		button_position_character = scope:jewish_leader
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:jewish_leader = {
+				group = petitioners_group
+				animation = worry
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	cooldown = { years = 20 }
+
+	trigger = {
+		NOT = { has_character_flag = rococo_jewish_protection_laws_flag }
+		any_held_title = {
+			tier = tier_county
+			county = {
+				any_county_province = {	has_holding_type = city_holding }
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		# Court weightings.
+		## Since you take peasant administrative concerns seriously...
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		random_held_title = { # Find a place for loc
+			limit = {
+				tier = tier_county
+				county = {
+					faith = root.faith
+					any_province = { has_holding = yes }
+				}
+			}
+			random_county_province = {
+				limit = { has_holding = yes }
+				save_scope_as = peasant_holding
+			}
+		}
+		hidden_effect = { # Create the Jewish leader
+			if = {# Iberian gnostics get a Sephardic Jew
+				limit = {
+					capital_province = {
+						OR = {
+							geographical_region = world_europe_west_iberia
+							geographical_region = world_europe_south
+						}
+					}
+				}
+				create_character = {
+					template = spanish_jewish_merchant_character
+					location = root.capital_province
+					save_scope_as = jewish_leader
+				}
+			}
+			else_if = {# Non-eastern mediteranians get Ashkenazi Jew
+				limit = {
+					capital_province = {
+						OR = {
+							geographical_region = world_europe_north
+							geographical_region = world_europe_west_germania
+							geographical_region = world_europe_west_britannia
+							geographical_region = world_europe_east
+							geographical_region = world_europe_west_francia
+
+						}
+					}
+				}
+				create_character = {
+					template = ashkenazi_jewish_merchant_character
+					location = root.capital_province
+					save_scope_as = jewish_leader
+				}
+			}
+			else = {# rest get Bavlim
+				create_character = {
+					template = bavlim_jewish_merchant_character
+					location = root.capital_province
+					save_scope_as = jewish_leader
+				}
+			}
+		}
+		scope:jewish_leader = {	court_event_character_flag_effect = yes }
+		if = { # Save Court Chaplain if relevant
+			limit = {
+				exists = cp:councillor_court_chaplain
+				cp:councillor_court_chaplain = {
+					has_court_event_flag = no
+					is_available_ai_adult = yes
+				}
+			}
+			cp:councillor_court_chaplain = {
+				save_scope_as = bishop
+				court_event_character_flag_effect = yes
+			}
+		}
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
+
+	option = {# The Jews shall have my protection
+		name = rococo_jewish.002.a
+		scope:bishop = {# Bishop likes this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		every_held_county = {# any Jewish county -loves- this
+			limit = { religion = { is_in_family = judaism_religion } }
+			custom = custom.every_held_county
+			add_county_modifier = {
+				modifier = rococo_jewish_protection_modifier
+				years = 50
+			}
+		}
+		every_vassal = {# Zealot Vassals don't like this
+			custom = every_zealot_vassal
+			limit = {
+				faith = root.faith
+				has_vassal_stance = zealot 
+			}
+			add_opinion = {
+				target = root
+				modifier = disapproving_opinion
+			}
+		}
+		every_vassal = {# Jewish Vassals
+			limit = { has_religion = religion:christianity_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		every_courtier_or_guest = {# guests and courtiers who are Jewish like that this
+			limit = { has_religion = religion:christianity_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		hidden_effect = {
+			add_character_flag = {# Permanent for the character. 
+				flag = rococo_jewish_protection_laws_flag
+			}
+		}
+		stress_impact = {
+			compassionate = minor_stress_gain
+			forgiving = minor_stress_gain
+			zealous = minor_stress_loss
+			just = minor_stress_loss
+			wrathful = minor_stress_loss
+			vengeful = minor_stress_loss
+		}
+ 		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.25
+				ai_energy = 0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = lazy
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = arrogant
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = impatient
+			}
+		}
+	}
+	option = {# Jews don't deserve my protection.
+		name = rococo_jewish.002.b
+		scope:bishop = {# Bishop likes it
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		every_held_county = {# any Jewish county -hates- this
+			limit = { religion = { is_in_family = judaism_religion } }
+			custom = custom.every_held_county
+			add_county_modifier = {
+				modifier = rococo_no_jewish_protection_modifier
+				years = 50
+			}
+		}
+		every_vassal = {# Zealot Vassals don't like this
+			custom = every_zealot_vassal
+			limit = {
+				faith = root.faith
+				has_vassal_stance = zealot 
+			}
+			add_opinion = {
+				target = root
+				modifier = disapproving_opinion
+			}
+		}
+		every_vassal = {# Jewish Vassals
+			limit = { has_religion = religion:christianity_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		every_courtier_or_guest = {# guests and courtiers who are Jewish like that this
+			limit = { has_religion = religion:christianity_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+			forgiving = medium_stress_impact_loss
+			zealous = minor_stress_gain
+			wrathful = medium_stress_impact_gain
+			vengeful = medium_stress_impact_gain
+		}
+		hidden_effect = {
+			add_character_flag = {
+				flag = rococo_jewish_protection_laws_flag
+				days = 1825
+			}
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = patient
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = diligent
+			}
+		}
+	}
+
+	after = {
+		scope:peasant = {
+			clear_court_event_participation = yes
+			if = {
+				limit = { is_alive = yes }
+				silent_disappearance_effect = yes
+			}
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
+
 
 #######################################
 #									  #

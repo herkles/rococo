@@ -409,17 +409,11 @@ rococo_hindu.002 = {# Cow dispute: Priests and peasants fight over cows and oxen
 #									  #
 #######################################
 
-# Temple wants money for a Lingya
-
 #######################################
 #									  #
 #        Shaktism Hindu Events        #
 #									  #
 #######################################
-
-# Debate over Animal Sacrifice within Kalkula
-
-# Spirited Woman wants to be a warrior like Durga
 
 #######################################
 #									  #
@@ -622,8 +616,6 @@ rococo_hindu.400 = {# Local priests want you to support Adi Shankara's places
 		hold_court_queue_post_event_effect = yes
 	}
 }
-
-
 #######################################
 #									  #
 #        Saura Hindu Events           #

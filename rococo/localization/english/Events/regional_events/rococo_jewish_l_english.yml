@@ -1,0 +1,39 @@
+﻿l_english:
+#######################################
+# Jewish Events for non - Jews
+#######################################
+  # Disputation of Paris
+    rococo_jewish.001.t:0 "The Disputation of [rococo_talmud_diposition_province.GetName]"
+    rococo_jewish.001.desc:0 "For some time there has been a trial ongoing about the Talmud. Your [bishop.GetCouncilTitle], [bishop.GetTitledFirstName], has condemned them as heretical and blasphemous against the words of Jesus Christ. While others have pointed out that while the book is wrong, it is not blasphemous. Numerous evidence has come for both sides. [jewish_leader.GetTitledFirstName] speaks on behalf of the jewish community and the value of talmud. They look to you to waiting on your decision."
+    rococo_jewish.001.a:0 "Burn the Heretical Books!"
+    rococo_jewish.001.b:0 "They are clearly wrong, but not Heretical."
+    rococo_jewish.001.c:0 "The Talmud does make some good points."
+  # Protecting the Jews?
+    rococo_jewish.002.t:0 "Jewish Protection?"
+    rococo_jewish.002.desc:0 "A man bows and kneels before you, dressed in the fashion of the jewish people. He speaks, "My [ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], I am [jewish_leader.GetTitledFirstName]. I come on behalf of your jewish subjects. You who are so merciful and just, we ask you to protect us. to keep us safe from harm." [jewish_leader.GetSheHe] looks to you awaiting your response."
+    rococo_jewish.002.a:0 "Jews deserve protection"
+    rococo_jewish.002.b:0 "Jews don't deserve any protection"
+  # Knight breaks jewish laws
+    rococo_jewish.003.t:0 "Knight goes after Jews"
+    rococo_jewish.003.desc:0 "A man bows and kneels before you, dressed in the fashion of the jewish people. He says, "My [ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], I am [jewish_leader.GetTitledFirstName]. I come on behalf of your jewish subjects. Your knight, [knight.GetTitledFirstName] has attacked my people even though you forbid violence against us. I come here seeking justice." /n/n"Justice? is that what you call it. When your people blasphemy against [root.HighGodName]." [knight.GetTitledFirstName] speaks out. Both look to you awaiting your response. "
+    rococo_jewish.003.a:0 "Punish [knight.GetTitledFirstName]"
+    rococo_jewish.003.b:0 "don't punish [knight.GetTitledFirstName]"
+
+
+#######################################
+# Jewish Events for Jews
+#######################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -462,8 +462,6 @@ rococo_christian.002 = {# The county converts
 		hold_court_queue_post_event_effect = yes
 	}
 }
-# Dispute between a Monastery and Bishopric
-# Heresy Trial
 
 #######################################
 #									  #
@@ -475,21 +473,6 @@ scripted_trigger rococo_is_catholic = {
 	exists = faith.religious_head
 	faith.religious_head_title = title:k_papal_state
 }
-# Two Bishops clash over land
-# Two bishoprics clash over who should have a local saint's relics.
-# EVENT
-# EVENT
-# EVENT
-# EVENT
-# EVENT
-# EVENT
-
-#######################################
-#									  #
-#      Orthodox Christian Events	  #
-#									  #
-#######################################
-
 #######################################
 #									  #
 #      Coptic Christian Events	      #
@@ -504,14 +487,15 @@ scripted_trigger rococo_is_catholic = {
 scripted_trigger rococo_is_gnostic_christian = {# for the Gnostic Christian Faiths
 	AND = {
 		religion = religion:christianity_religion
-		faith = { has_doctrine = tenet_gnosticism }
+		OR = {
+			faith = { has_doctrine = tenet_gnosticism }
+			faith = { has_doctrine = special_doctrine_is_gnostic_faith }
+
+		}
 	}
 }
 
-# Iconoclasm vs Iconophile
-# Relationship with the Jews?
-# Promoting Pescetarianism
-rococo_christian.400 = {# # Promoting Pescetarianism
+rococo_christian.400 = {# Promoting Pescetarianism
 	type = court_event
 	title = rococo_christian.400.t
 	desc = rococo_christian.400.desc
@@ -550,11 +534,6 @@ rococo_christian.400 = {# # Promoting Pescetarianism
 				faith = { has_doctrine = tenet_pacifism } # Pacifism to support vegetarianism
 			}
 		}
-
-
-
-		faith.religion = religion:hinduism_religion
-
 		exists = cp:councillor_court_chaplain
 		cp:councillor_court_chaplain = {
 			has_court_event_flag = no
@@ -736,6 +715,7 @@ rococo_christian.400 = {# # Promoting Pescetarianism
 		hold_court_queue_post_event_effect = yes
 	}
 }
+
 
 #######################################
 #									  #
