@@ -16,8 +16,9 @@
   # Knight breaks jewish laws
     rococo_jewish.003.t:0 "Knight goes after Jews"
     rococo_jewish.003.desc:0 "A man bows and kneels before you, dressed in the fashion of the jewish people. He says, "My [ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], I am [jewish_leader.GetTitledFirstName]. I come on behalf of your jewish subjects. Your knight, [knight.GetTitledFirstName] has attacked my people even though you forbid violence against us. I come here seeking justice." /n/n"Justice? is that what you call it. When your people blasphemy against [root.HighGodName]." [knight.GetTitledFirstName] speaks out. Both look to you awaiting your response. "
-    rococo_jewish.003.a:0 "Punish [knight.GetTitledFirstName]"
-    rococo_jewish.003.b:0 "don't punish [knight.GetTitledFirstName]"
+    rococo_jewish.003.a:0 "Punish [knight.GetTitledFirstName] lightly"
+    rococo_jewish.003.b:0 "Throw [knight.GetTitledFirstName] in prison"
+    rococo_jewish.003.c:0 "don't punish [knight.GetTitledFirstName]"
 
 
 #######################################

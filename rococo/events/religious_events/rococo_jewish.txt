@@ -147,7 +147,7 @@ rococo_jewish.001 = {# Disputation of Paris style - Putting the Talmud on Trial 
 			}
 		}
 		every_vassal = {# Jewish Vassals hate this
-			limit = { has_religion = religion:christianity_religion  }
+			limit = { has_religion = religion:judaism_religion  }
 			add_opinion = {
 				target = root
 				modifier = pleased_opinion
@@ -155,7 +155,7 @@ rococo_jewish.001 = {# Disputation of Paris style - Putting the Talmud on Trial 
 			}
 		}
 		every_courtier_or_guest = {# Jewish Guests and Courtiers hate this
-			limit = { has_religion = religion:christianity_religion  }
+			limit = { has_religion = religion:judaism_religion  }
 			add_opinion = {
 				target = root
 				modifier = pleased_opinion
@@ -211,7 +211,7 @@ rococo_jewish.001 = {# Disputation of Paris style - Putting the Talmud on Trial 
 			}
 		}
 		every_vassal = {# Jewish Vassals are greatful nothing bad will happen
-			limit = { has_religion = religion:christianity_religion  }
+			limit = { has_religion = religion:judaism_religion  }
 			add_opinion = {
 				target = root
 				modifier = pleased_opinion
@@ -219,7 +219,7 @@ rococo_jewish.001 = {# Disputation of Paris style - Putting the Talmud on Trial 
 			}
 		}
 		every_courtier_or_guest = {# guests and courtiers who are Jewish like that this
-			limit = { has_religion = religion:christianity_religion  }
+			limit = { has_religion = religion:judaism_religion  }
 			add_opinion = {
 				target = root
 				modifier = pleased_opinion
@@ -269,7 +269,7 @@ rococo_jewish.001 = {# Disputation of Paris style - Putting the Talmud on Trial 
 			}
 		}
 		every_vassal = {# Jewish Vassals like this
-			limit = { has_religion = religion:christianity_religion  }
+			limit = { has_religion = religion:judaism_religion  }
 			add_opinion = {
 				target = root
 				modifier = pleased_opinion
@@ -277,7 +277,7 @@ rococo_jewish.001 = {# Disputation of Paris style - Putting the Talmud on Trial 
 			}
 		}
 		every_courtier_or_guest = {# guests and courtiers who are Jewish like that this
-			limit = { has_religion = religion:christianity_religion  }
+			limit = { has_religion = religion:judaism_religion  }
 			add_opinion = {
 				target = root
 				modifier = pleased_opinion
@@ -336,7 +336,12 @@ rococo_jewish.002 = {# Jewish protection Laws
 	cooldown = { years = 20 }
 
 	trigger = {
-		NOT = { has_character_flag = rococo_jewish_protection_laws_flag }
+		NOT = { 
+			OR = {
+				has_character_flag = rococo_jewish_protection_laws_event_flag 
+				has_character_flag = rococo_jewish_protection_laws_flag 
+			}
+		}
 		any_held_title = {
 			tier = tier_county
 			county = {
@@ -354,6 +359,11 @@ rococo_jewish.002 = {# Jewish protection Laws
 	}
 
 	immediate = {
+		add_character_flag = {
+			flag = rococo_jewish_protection_laws_event_flag
+			days = 1825
+		}
+
 		random_held_title = { # Find a place for loc
 			limit = {
 				tier = tier_county
@@ -430,13 +440,6 @@ rococo_jewish.002 = {# Jewish protection Laws
 
 	option = {# The Jews shall have my protection
 		name = rococo_jewish.002.a
-		scope:bishop = {# Bishop likes this
-		 	add_opinion = {
-		 		target = root
-				modifier = annoyed_opinion
-				opinion = -15
-		 	}
-		}
 		every_held_county = {# any Jewish county -loves- this
 			limit = { religion = { is_in_family = judaism_religion } }
 			custom = custom.every_held_county
@@ -444,6 +447,13 @@ rococo_jewish.002 = {# Jewish protection Laws
 				modifier = rococo_jewish_protection_modifier
 				years = 50
 			}
+		}
+		scope:bishop = {# Bishop likes this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
 		}
 		every_vassal = {# Zealot Vassals don't like this
 			custom = every_zealot_vassal
@@ -456,8 +466,9 @@ rococo_jewish.002 = {# Jewish protection Laws
 				modifier = disapproving_opinion
 			}
 		}
+
 		every_vassal = {# Jewish Vassals
-			limit = { has_religion = religion:christianity_religion  }
+			limit = { has_religion = religion:judaism_religion  }
 			add_opinion = {
 				target = root
 				modifier = pleased_opinion
@@ -465,13 +476,14 @@ rococo_jewish.002 = {# Jewish protection Laws
 			}
 		}
 		every_courtier_or_guest = {# guests and courtiers who are Jewish like that this
-			limit = { has_religion = religion:christianity_religion  }
+			limit = { has_religion = religion:judaism_religion  }
 			add_opinion = {
 				target = root
 				modifier = pleased_opinion
 				opinion = 10
 			}
 		}
+
 		hidden_effect = {
 			add_character_flag = {# Permanent for the character. 
 				flag = rococo_jewish_protection_laws_flag
@@ -534,7 +546,7 @@ rococo_jewish.002 = {# Jewish protection Laws
 			}
 		}
 		every_vassal = {# Jewish Vassals
-			limit = { has_religion = religion:christianity_religion  }
+			limit = { has_religion = religion:judaism_religion  }
 			add_opinion = {
 				target = root
 				modifier = pleased_opinion
@@ -542,7 +554,7 @@ rococo_jewish.002 = {# Jewish protection Laws
 			}
 		}
 		every_courtier_or_guest = {# guests and courtiers who are Jewish like that this
-			limit = { has_religion = religion:christianity_religion  }
+			limit = { has_religion = religion:judaism_religion  }
 			add_opinion = {
 				target = root
 				modifier = pleased_opinion
@@ -590,7 +602,345 @@ rococo_jewish.002 = {# Jewish protection Laws
 		hold_court_queue_post_event_effect = yes
 	}
 }
+rococo_jewish.003 = {# Crime against the Jews by one of your Knights
+	type = court_event
+	title = rococo_jewish.003.t
+	desc = rococo_jewish.003.desc
+	theme = realm
+	court_scene = {
+		button_position_character = scope:jewish_leader
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:jewish_leader = {
+				group = petitioners_group
+				animation = worry
+			}
+		}
+	}
 
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	cooldown = { years = 20 }
+
+	trigger = {
+		NOT = { has_character_flag = rococo_jewish_knight_attack_flag }
+		has_character_flag = rococo_jewish_protection_laws_flag
+		any_held_title = {
+			tier = tier_county
+			county = {
+				any_county_province = {	has_holding_type = city_holding }
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		# Court weightings.
+		## Since you take peasant administrative concerns seriously...
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = rococo_jewish_knight_attack_flag
+			days = 1825
+		}
+		random_vassal = {
+			weight = {
+				base = 1
+				modifier = {
+					factor = 20
+					has_trait = sadistic
+				}
+				modifier = {
+					is_knight_of = root
+					factor = 10
+				}
+				modifier = {
+					has_trait = vengeful
+					factor = 10
+				}
+				modifier = {
+					has_trait = zealous
+					factor = 10
+				}
+				modifier = {
+					has_trait = callous
+					factor = 10
+				}
+				modifier = {
+					has_trait = wrathful
+					factor = 10
+				}
+			}
+			limit = {
+				is_ai = yes
+				has_court_event_flag = no
+				is_knight_of = root
+				OR = {	
+					has_trait = sadistic
+					has_trait = callous
+					has_trait = zealous
+					has_trait = vengeful 
+					has_trait = wrathful
+				}
+			}
+			save_scope_as = knight
+			court_event_character_flag_effect = yes
+		}
+		hidden_effect = { # Create the Jewish leader
+			if = {# Iberian gnostics get a Sephardic Jew
+				limit = {
+					capital_province = {
+						OR = {
+							geographical_region = world_europe_west_iberia
+							geographical_region = world_europe_south
+						}
+					}
+				}
+				create_character = {
+					template = spanish_jewish_merchant_character
+					location = root.capital_province
+					save_scope_as = jewish_leader
+				}
+			}
+			else_if = {# Non-eastern mediteranians get Ashkenazi Jew
+				limit = {
+					capital_province = {
+						OR = {
+							geographical_region = world_europe_north
+							geographical_region = world_europe_west_germania
+							geographical_region = world_europe_west_britannia
+							geographical_region = world_europe_east
+							geographical_region = world_europe_west_francia
+
+						}
+					}
+				}
+				create_character = {
+					template = ashkenazi_jewish_merchant_character
+					location = root.capital_province
+					save_scope_as = jewish_leader
+				}
+			}
+			else = {# rest get Bavlim
+				create_character = {
+					template = bavlim_jewish_merchant_character
+					location = root.capital_province
+					save_scope_as = jewish_leader
+				}
+			}
+
+
+			dummy_female = { save_scope_as = dummy_female }
+			dummy_male = { save_scope_as = dummy_male }
+		}
+		scope:jewish_leader = {	court_event_character_flag_effect = yes }
+		if = { # Save Court Chaplain if relevant
+			limit = {
+				exists = cp:councillor_court_chaplain
+				cp:councillor_court_chaplain = {
+					has_court_event_flag = no
+					is_available_ai_adult = yes
+				}
+			}
+			cp:councillor_court_chaplain = {
+				save_scope_as = bishop
+				court_event_character_flag_effect = yes
+			}
+		}
+
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
+
+	option = {# the Knight shall be punished lightly
+		name = rococo_jewish.003.a
+		scope:knight = {# Bishop likes this
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		every_vassal = {# Jewish Vassals
+			limit = { has_religion = religion:judaism_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		every_courtier_or_guest = {# guests and courtiers who are Jewish like that this
+			limit = { has_religion = religion:christianity_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+
+		stress_impact = {
+			compassionate = minor_stress_gain
+			forgiving = minor_stress_gain
+			zealous = minor_stress_loss
+			just = minor_stress_loss
+			wrathful = minor_stress_loss
+			vengeful = minor_stress_loss
+		}
+ 		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.25
+				ai_energy = 0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = lazy
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = arrogant
+			}
+			modifier = {	#Weight down for stress.
+				add = -30
+				has_trait = impatient
+			}
+		}
+	}
+	option = {# The knight shall be imprisoned 
+		name = rococo_jewish.003.b
+		add_prestige = medium_prestige_gain
+		scope:knight = {# the Knight is furious
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		rightfully_imprison_character_effect = {
+			TARGET = scope:knight
+		   IMPRISONER = root
+		}
+		scope:knight = {# the Knight's allies is furious
+			every_ally = {
+				add_opinion = {
+					target = root
+				   modifier = annoyed_opinion
+				   opinion = -15
+				}
+			}
+		}		
+		every_vassal = {# Jewish Vassals are happy
+			limit = { has_religion = religion:judaism_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		every_courtier_or_guest = {# guests and courtiers who are Jewish like that this
+			limit = { has_religion = religion:judaism_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+			forgiving = medium_stress_impact_loss
+			zealous = minor_stress_gain
+			wrathful = medium_stress_impact_gain
+			vengeful = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = patient
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = diligent
+			}
+		}
+	}
+	option = {# The Knight is pardoned
+		name = rococo_jewish.003.c
+		add_prestige = medium_prestige_loss
+		scope:knight = {# the Knight is happy
+		 	add_opinion = {
+		 		target = root
+				modifier = annoyed_opinion
+				opinion = -15
+		 	}
+		}
+		every_vassal = {# Jewish Vassals are happy
+			limit = { has_religion = religion:judaism_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+		every_courtier_or_guest = {# guests and courtiers who are Jewish like that this
+			limit = { has_religion = religion:judaism_religion  }
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 10
+			}
+		}
+
+
+
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+			forgiving = medium_stress_impact_gain
+			zealous = minor_stress_loss
+			wrathful = medium_stress_impact_loss
+			vengeful = medium_stress_impact_loss
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = -0.5
+				ai_compassion = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = compassionate
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = just
+			}
+		}
+	}
+
+	after = {
+		scope:peasant = {
+			clear_court_event_participation = yes
+			if = {
+				limit = { is_alive = yes }
+				silent_disappearance_effect = yes
+			}
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
 
 #######################################
 #									  #
