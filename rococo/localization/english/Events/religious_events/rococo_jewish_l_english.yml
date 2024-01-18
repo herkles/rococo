@@ -24,10 +24,10 @@
 # Jewish Events for Jews
 #######################################
   # Rabbi wants money to support a mikvahs
-    rococo_jewish.002.t:0 "Supporting a mikvah?"
-    rococo_jewish.002.desc:0 "A man enters and bows before you, "My [ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], my name is [jewish_leader.GetTitledFirstName], and I represent the town of [jewish_town.GetName]. I have travelled to your illustrious court to seek your support for our community's mikvahs." The [jewish_leader.GetWomanMan] looks to you awaiting your response."
-    rococo_jewish.002.a:0 "Support the Mikvah"
-    rococo_jewish.002.b:0 "I alas can not afford it currently."
+    rococo_jewish.100.t:0 "Supporting a mikvah?"
+    rococo_jewish.100.desc:0 "A man enters and bows before you, "My [ROOT.Char.GetPrimaryTitle.GetNameNoTierNoTooltip], my name is [jewish_leader.GetTitledFirstName], and I represent the town of [jewish_town.GetName]. I have travelled to your illustrious court to seek your support for our community's mikvahs." The [jewish_leader.GetWomanMan] looks to you awaiting your response."
+    rococo_jewish.100.a:0 "Support the Mikvah"
+    rococo_jewish.100.b:0 "I alas can not afford it currently."
 
 
 

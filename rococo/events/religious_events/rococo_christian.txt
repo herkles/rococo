@@ -1096,7 +1096,8 @@ rococo_christian.501 = {# Priests debate the nature of holidays
 					is_clergy = yes
 				}
 				save_temporary_scope_as = same_vassal_check
-			}
+		}
+		
 		any_courtier = {
 			rococo_is_proto_protestant = yes
 			OR = {

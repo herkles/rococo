@@ -133,6 +133,11 @@ rococo_no_jewish_protection_modifier = {
 	county_opinion_add = -10
 	monthly_county_control_change_factor = -0.05
 }
+rococo_jewish_mikveh_supported_modifier = {
+	icon = county_modifier_opinion_positive
+	county_opinion_add = 10
+	development_growth_factor = tiny_development_growth_gain
+}
 #######################################
 #									  #
 #      	   India Modifiers	          #

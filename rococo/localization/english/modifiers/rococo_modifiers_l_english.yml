@@ -69,6 +69,18 @@
  rococo_adi_temple_county_modifier_desc:1 "This county holds one of the Four Char Dham, holy sites established by Adi Shankara, a site that has recently seen an increase in support for the temple and pilgrims. "
 
 #######################################
+# Jewish modifiers
+#######################################
+ rococo_jewish_protection_modifier:0 "Protecting Jews"
+ rococo_jewish_protection_modifier_desc:1 "The laws of this county are designed to protect the jewish populace and thus making them happy."
+
+ rococo_no_jewish_protection_modifier:0 "Not Protecting Jews"
+ rococo_no_jewish_protection_modifier_desc:1 "The laws of this county don't protect the Jewish populace and thus have earned their ire."
+
+ rococo_jewish_mikveh_supported_modifier:0 "Supporting Mikvahs"
+ rococo_jewish_mikveh_supported_modifier_desc:1 "Investment in Mikvahs or ritual baths throughout this county have made the populace happy and industrious."
+
+#######################################
 # India modifiers
 #######################################
  rococo_elephant_india_development_modifier:0 "Elephants Helping County"

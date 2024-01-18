@@ -72,7 +72,18 @@ bavlim_jewish_merchant_character = {# bavlim Jews
 		set_character_faith = scope:courtier_faith
 	}
 }
-
+jewish_cantor_character = {
+	age = { 20 30 }
+	faith = root.faith
+	culture = root.culture
+	trait = poet
+	diplomacy = average_skill_level
+	learning = average_skill_level
+	stewardship = average_skill_level
+	intrigue = average_skill_level
+	martial = average_skill_level
+	random_traits = yes
+}
 
 
 

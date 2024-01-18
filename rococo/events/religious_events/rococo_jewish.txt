@@ -946,7 +946,6 @@ rococo_jewish.003 = {# Crime against the Jews by one of your Knights
 #      	 Rabinic Jewish Events    	  #
 #									  #
 #######################################
-
 rococo_jewish.100 = {# Rabbi comes asking for money to support a Mikveh.
 	type = court_event
 	title = rococo_jewish.100.t
@@ -958,7 +957,7 @@ rococo_jewish.100 = {# Rabbi comes asking for money to support a Mikveh.
 		show_timeout_info = no
 		should_pause_time = yes
 		roles = {
-			scope:priest = {
+			scope:jewish_leader = {
 				group = petitioners_group
 				animation = throne_room_bow_1
 			}
@@ -992,6 +991,65 @@ rococo_jewish.100 = {# Rabbi comes asking for money to support a Mikveh.
 			flag = rococo_jewish_mikveh_support_event_flag
 			days = 1825
 		}
+
+		random_held_title = { # Find a place for loc
+			limit = {
+				tier = tier_county
+				county = {
+					faith = root.faith
+					any_province = { has_holding = yes }
+				}
+			}
+			random_county_province = {
+				limit = { has_holding = yes }
+				save_scope_as = jewish_town
+			}
+		}
+		hidden_effect = { # Create the Jewish leader
+			if = {# Iberian gnostics get a Sephardic Jew
+				limit = {
+					capital_province = {
+						OR = {
+							geographical_region = world_europe_west_iberia
+							geographical_region = world_europe_south
+						}
+					}
+				}
+				create_character = {
+					template = spanish_jewish_merchant_character
+					location = root.capital_province
+					save_scope_as = jewish_leader
+				}
+			}
+			else_if = {# Non-eastern mediteranians get Ashkenazi Jew
+				limit = {
+					capital_province = {
+						OR = {
+							geographical_region = world_europe_north
+							geographical_region = world_europe_west_germania
+							geographical_region = world_europe_west_britannia
+							geographical_region = world_europe_east
+							geographical_region = world_europe_west_francia
+
+						}
+					}
+				}
+				create_character = {
+					template = ashkenazi_jewish_merchant_character
+					location = root.capital_province
+					save_scope_as = jewish_leader
+				}
+			}
+			else = {# rest get Bavlim
+				create_character = {
+					template = bavlim_jewish_merchant_character
+					location = root.capital_province
+					save_scope_as = jewish_leader
+				}
+			}
+		}
+		scope:jewish_leader = {	court_event_character_flag_effect = yes }
+
 		if = { # Save Court Chaplain if relevant
 			limit = {
 				exists = cp:councillor_court_chaplain
@@ -1022,6 +1080,12 @@ rococo_jewish.100 = {# Rabbi comes asking for money to support a Mikveh.
 				modifier = annoyed_opinion
 				opinion = -15
 		 	}
+		}
+		scope:jewish_town.county = {# County gains some small development and likes the support
+			add_county_modifier = {
+				modifier = rococo_jewish_mikveh_supported_modifier
+				years = 10
+			}
 		}
 		stress_impact = {
  			zealous = minor_stress_impact_loss
@@ -1089,8 +1153,6 @@ rococo_jewish.100 = {# Rabbi comes asking for money to support a Mikveh.
 		hold_court_queue_post_event_effect = yes
 	}
 }
-# two musicians ask for the position of royal musician(Cantor) to perform at events
-
 # Diaspora Diplomacy 
 
 # Kosher Certification
